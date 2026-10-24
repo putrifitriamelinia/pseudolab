@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PseudoLab — Belajar IF–ELSE</title>
+<style>
+  :root { --ink:#172033; --muted:#667085; --line:#e5e9f2; --bg:#f5f7fb; --primary:#4657d9; --primary2:#eef0ff; --good:#137547; --goodbg:#e9f8ef; --bad:#a33333; --badbg:#fff0ef; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:20px 5vw; }
+  .brand { max-width:1050px; margin:auto; display:flex; align-items:center; gap:12px; }
+  .logo { display:grid; place-items:center; width:44px; height:44px; border-radius:13px; background:var(--primary2); color:var(--primary); font-weight:800; font-size:22px; }
+  h1 { font-size:1.35rem; margin:0; } .tagline { color:var(--muted); font-size:.9rem; margin:2px 0 0; }
+  main { max-width:1050px; margin:28px auto; padding:0 18px 40px; display:grid; grid-template-columns: .9fr 1.1fr; gap:20px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px; box-shadow:0 4px 16px rgba(20,30,60,.035); }
+  h2 { font-size:1.08rem; margin:0 0 12px; } h3 { font-size:1rem; margin:20px 0 8px; }
+  p { margin:8px 0; } .muted { color:var(--muted); font-size:.92rem; }
+  code, pre { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+  pre { white-space:pre-wrap; background:#f6f7fb; padding:15px; border-radius:12px; border:1px solid var(--line); font-size:.92rem; }
+  .pill { display:inline-block; font-size:.78rem; padding:4px 9px; border-radius:99px; background:var(--primary2); color:var(--primary); font-weight:700; }
+  label { display:block; font-weight:650; margin:12px 0 6px; }
+  input[type=number] { width:100%; padding:11px 12px; border:1px solid #cbd2e1; border-radius:10px; font:inherit; }
+  button { border:0; border-radius:10px; padding:10px 14px; font:inherit; font-weight:650; cursor:pointer; }
+  button:focus-visible, input:focus-visible { outline:3px solid #aab2ff; outline-offset:2px; }
+  .primary { background:var(--primary); color:white; } .secondary { background:#eef0f6; color:var(--ink); }
+  .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .feedback { margin-top:12px; padding:12px; border-radius:10px; display:none; }
+  .feedback.show { display:block; } .good { color:var(--good); background:var(--goodbg); } .bad { color:var(--bad); background:var(--badbg); }
+  .hint { background:#fff8e5; color:#6f4c00; border:1px solid #f4df9d; }
+  .question { border-top:1px solid var(--line); padding-top:16px; margin-top:18px; }
+  .option { display:flex; align-items:flex-start; gap:9px; border:1px solid var(--line); padding:10px 12px; border-radius:10px; margin:8px 0; cursor:pointer; font-weight:400; }
+  .option input { margin-top:5px; }
+  .score { font-size:1.8rem; font-weight:800; }
+  footer { max-width:1050px; margin:0 auto; padding:0 18px 28px; color:var(--muted); font-size:.82rem; }
+  @media(max-width:760px) { main { grid-template-columns:1fr; margin-top:18px; } .card { padding:18px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">&lt;/&gt;</div>
+    <div><h1>PseudoLab</h1><p class="tagline">Laboratorium pseudocode interaktif · Belajar IF–ELSE</p></div>
+  </div>
+</header>
+<main>
+  <section class="card">
+    <span class="pill">MATERI SINGKAT</span>
+    <h2 style="margin-top:12px">Apa itu IF–ELSE?</h2>
+    <p>Dalam algoritma, <b>IF–ELSE</b> digunakan untuk memilih tindakan berdasarkan kondisi.</p>
+    <pre>IF kondisi THEN
+    aksi jika benar
+ELSE
+    aksi jika salah
+ENDIF</pre>
+    <h3>Contoh: menentukan kelulusan</h3>
+    <p>Jika nilai ujian <b>75 atau lebih</b>, statusnya “Lulus”. Jika kurang dari 75, statusnya “Belum lulus”.</p>
+    <pre>INPUT nilai
+IF nilai >= 75 THEN
+    OUTPUT "Lulus"
+ELSE
+    OUTPUT "Belum lulus"
+ENDIF</pre>
+    <p class="muted">Perhatikan operator <code>&gt;=</code>: artinya lebih besar dari atau sama dengan.</p>
+    <h3>Coba simulasikan</h3>
+    <label for="scoreInput">Masukkan nilai ujian (0–100)</label>
+    <input id="scoreInput" type="number" min="0" max="100" value="80">
+    <div class="actions"><button class="primary" id="runSim">Jalankan simulasi</button></div>
+    <div id="simResult" class="feedback" role="status" aria-live="polite"></div>
+  </section>
+  <section class="card">
+    <span class="pill">LATIHAN INTERAKTIF</span>
+    <h2 style="margin-top:12px">Tantangan 1: Pilih kondisi yang tepat</h2>
+    <p>Sebuah sistem menampilkan “Lulus” jika nilai murid adalah 75 atau lebih. Kondisi mana yang tepat?</p>
+    <div id="options">
+      <label class="option"><input type="radio" name="answer" value="a"> <span><code>nilai &gt; 75</code></span></label>
+      <label class="option"><input type="radio" name="answer" value="b"> <span><code>nilai &gt;= 75</code></span></label>
+      <label class="option"><input type="radio" name="answer" value="c"> <span><code>nilai &lt;= 75</code></span></label>
+    </div>
+    <div class="actions">
+      <button class="primary" id="checkAnswer">Periksa jawaban</button>
+      <button class="secondary" id="hintButton">Minta petunjuk (1)</button>
+      <button class="secondary" id="resetButton">Ulangi</button>
+    </div>
+    <div id="answerFeedback" class="feedback" role="status" aria-live="polite"></div>
+    <div id="hintFeedback" class="feedback hint" role="status" aria-live="polite"></div>
+    <div class="question">
+      <h3>Tantangan 2: Uji pemahaman</h3>
+      <p>Jika kondisi yang digunakan adalah <code>nilai &gt;= 75</code>, apa hasilnya ketika nilai = 75?</p>
+      <label class="option"><input type="radio" name="answer2" value="a"> <span>Lulus</span></label>
+      <label class="option"><input type="radio" name="answer2" value="b"> <span>Belum lulus</span></label>
+      <button class="primary" id="checkAnswer2">Periksa jawaban</button>
+      <div id="answerFeedback2" class="feedback" role="status" aria-live="polite"></div>
+    </div>
+    <div class="question">
+      <h3>Skor latihan</h3>
+      <div class="score"><span id="score">0</span><span style="font-size:1rem;font-weight:500"> / 2</span></div>
+      <p class="muted">Skor bertambah saat jawaban benar. Coba jelaskan alasanmu sebelum melihat pembahasan.</p>
+    </div>
+  </section>
+</main>
+<footer>Prototipe awal untuk uji coba. Belum menyimpan nama atau nilai ke server; hasil hanya ditampilkan selama halaman dibuka.</footer>
+<script>
+  const $ = (id) => document.getElementById(id);
+  $('runSim').addEventListener('click', () => {
+    const raw = $('scoreInput').value;
+    const val = Number(raw);
+    const box = $('simResult');
+    box.className = 'feedback show';
+    if (raw === '' || !Number.isFinite(val) || val < 0 || val > 100) {
+      box.classList.add('bad');
+      box.textContent = 'Masukkan angka dari 0 sampai 100.';
+      return;
+    }
+    box.classList.add('good');
+    box.textContent = `INPUT nilai = ${val} → kondisi nilai >= 75 adalah ${val >= 75 ? 'BENAR' : 'SALAH'} → OUTPUT "${val >= 75 ? 'Lulus' : 'Belum lulus'}".`;
+  });
+
+  let hintStep = 0, firstCorrect = false, secondCorrect = false;
+  function updateScore() { $('score').textContent = Number(firstCorrect) + Number(secondCorrect); }
+  $('checkAnswer').addEventListener('click', () => {
+    const chosen = document.querySelector('input[name="answer"]:checked');
+    const box = $('answerFeedback');
+    box.className = 'feedback show';
+    if (!chosen) {
+      box.classList.add('bad'); box.textContent = 'Pilih salah satu jawaban terlebih dahulu.'; return;
+    }
+    if (chosen.value === 'b') {
+      firstCorrect = true; box.classList.add('good');
+      box.textContent = 'Benar! Operator >= berarti lebih besar dari atau sama dengan, sehingga nilai 75 juga termasuk lulus.';
+    } else {
+      firstCorrect = false; box.classList.add('bad');
+      box.textContent = 'Belum tepat. Gunakan petunjuk bertahap untuk meninjau arti operator perbandingan.';
+    }
+    updateScore();
+  });
+  $('hintButton').addEventListener('click', () => {
+    const box = $('hintFeedback');
+    box.className = 'feedback show hint';
+    hintStep = Math.min(hintStep + 1, 3);
+    const hints = [
+      'Petunjuk 1: Kata kuncinya adalah “75 atau lebih”.',
+      'Petunjuk 2: Apakah nilai tepat 75 harus diterima? Operator > saja tidak mencakup nilai yang sama.',
+      'Petunjuk 3: Pilih operator yang berarti “lebih besar dari ATAU sama dengan”.'
+    ];
+    box.textContent = hints[hintStep - 1];
+    $('hintButton').textContent = hintStep < 3 ? `Minta petunjuk (${hintStep + 1})` : 'Petunjuk lengkap';
+  });
+  $('resetButton').addEventListener('click', () => {
+    document.querySelectorAll('input[name="answer"]').forEach(el => el.checked = false);
+    hintStep = 0; firstCorrect = false;
+    $('hintButton').textContent = 'Minta petunjuk (1)';
+    $('answerFeedback').className = 'feedback'; $('answerFeedback').textContent = '';
+    $('hintFeedback').className = 'feedback'; $('hintFeedback').textContent = '';
+    updateScore();
+  });
+  $('checkAnswer2').addEventListener('click', () => {
+    const chosen = document.querySelector('input[name="answer2"]:checked');
+    const box = $('answerFeedback2');
+    box.className = 'feedback show';
+    if (!chosen) { box.classList.add('bad'); box.textContent = 'Pilih jawaban terlebih dahulu.'; return; }
+    secondCorrect = chosen.value === 'a';
+    box.classList.add(secondCorrect ? 'good' : 'bad');
+    box.textContent = secondCorrect ? 'Benar! Nilai 75 memenuhi kondisi nilai >= 75.' : 'Belum tepat. Ingat, >= mencakup nilai yang sama dengan 75.';
+    updateScore();
+  });
+</script>
+</body>
+</html>
