@@ -13,10 +13,10 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-button,input{font:inherit}     
+button,input,select{font:inherit}
 button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;transition:transform .12s,background .12s}
-button:active{transform:translateY(1px)}     
-button:focus-visible,input:focus-visible{outline:3px solid #aab2ff;outline-offset:2px}
+button:active{transform:translateY(1px)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #aab2ff;outline-offset:2px}
 button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .primary{background:var(--primary);color:#fff}.secondary{background:#eef0f6;color:var(--ink)}
 .outline{background:#fff;color:var(--primary);border:1px solid #cbd0ff}
@@ -39,12 +39,11 @@ p{margin:8px 0}.muted{color:var(--muted);font-size:.92rem}
 .module-card{border:1px solid var(--line);border-radius:15px;padding:18px;display:flex;flex-direction:column;gap:8px}
 .module-card h3{margin:0;font-size:1.08rem}
 .module-card p{color:var(--muted);font-size:.92rem}
-.module-icon {width: fit-content; min-width: 100px; height: 42px; padding: 0 12px; display: flex; align-items: center; justify-content: center; white-space: nowrap; box-sizing: border-box; border-radius: 6px; background: var(--primary2); color: var(--primary); font-size: 0.9rem; font-weight: 800;}
+.module-icon{width:fit-content;min-width:100px;height:42px;padding:0 12px;display:flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box;border-radius:6px;background:var(--primary2);color:var(--primary);font-size:.9rem;font-weight:800}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .hidden{display:none!important}
 .breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--muted);font-size:.88rem;margin-bottom:14px}
 .breadcrumb button{padding:3px 7px;background:transparent;color:var(--primary)}
-.columns{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}
 .lesson-box{background:#f8f9fd;border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f7fb;padding:14px;border-radius:12px;border:1px solid var(--line);font-size:.9rem;margin:10px 0;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
@@ -68,6 +67,7 @@ code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 .feedback.show{display:block}.good{color:var(--good);background:var(--goodbg)}.bad{color:var(--bad);background:var(--badbg)}
 .hintbox{color:var(--hint);background:var(--hintbg);border:1px solid #f4df9d}
 input[type=number]{width:100%;padding:10px 12px;border:1px solid #cbd2e1;border-radius:10px;background:#fff}
+select{width:100%;padding:10px 12px;border:1px solid #cbd2e1;border-radius:10px;background:#fff}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .field label{display:block;font-weight:700;margin:10px 0 5px}
 .sim-output{background:#f7f8fc;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
@@ -85,8 +85,200 @@ input[type=number]{width:100%;padding:10px 12px;border:1px solid #cbd2e1;border-
 .status{font-size:.82rem;font-weight:800;border-radius:99px;padding:3px 8px;display:inline-block}
 .status.done{color:var(--good);background:var(--goodbg)}.status.review{color:var(--hint);background:var(--hintbg)}
 footer{max-width:1120px;margin:auto;padding:0 18px 28px;color:var(--muted);font-size:.82rem}
-@media(max-width:760px){main{margin-top:16px}.panel{padding:17px}.hero,.columns{grid-template-columns:1fr}.module-grid{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr 1fr}.level-row{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.hero-stats{grid-template-columns:1fr 1fr}.result-grid{grid-template-columns:1fr}.question-title{display:block}.points{display:inline-block;margin-top:8px}}
+
+/* === VISUALIZATION COMPONENTS === */
+.pseudocode-display{background:#1e2235;color:#e5e9f2;border-radius:12px;padding:14px 0;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.86rem;line-height:1.75;overflow-x:auto;margin:12px 0}
+.pseudocode-display .code-line{display:block;padding:2px 14px 2px 0;white-space:pre}
+.pseudocode-display .code-line .line-num{display:inline-block;width:34px;text-align:right;margin-right:14px;color:#5c6488;user-select:none;border-right:1px solid #2e3450;padding-right:8px}
+.pseudocode-display .code-line.highlight{background:rgba(255,99,99,.16);border-left:3px solid #ff6b6b;padding-left:0}
+.pseudocode-display .code-line.highlight .line-num{color:#ff8a8a}
+
+.trace-table-wrap{overflow-x:auto;margin:12px 0;border-radius:12px;border:1px solid var(--line)}
+.trace-table{border-collapse:collapse;width:100%;font-size:.82rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.trace-table th,.trace-table td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 11px;text-align:left;white-space:nowrap}
+.trace-table th:last-child,.trace-table td:last-child{border-right:0}
+.trace-table tr:last-child td{border-bottom:0}
+.trace-table th{background:var(--primary2);color:var(--primary);font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em}
+.trace-table tr:nth-child(even) td{background:#fafbff}
+.trace-table td:first-child{text-align:center;color:var(--muted);font-weight:700}
+.trace-table .target-col{background:#e9f8ef!important;color:var(--good)!important;font-weight:700}
+.trace-table th.target-col{background:#c8efd6!important;color:var(--good)!important}
+.trace-table .filled{color:var(--ink);font-weight:700}
+.trace-table .empty{color:#c5cad8;text-align:center}
+
+.flow-trace{margin:12px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fbfcff}
+.ft-row{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid #eef0f6;font-size:.83rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;flex-wrap:wrap}
+.ft-row:last-child{border-bottom:0}
+.ft-cond{background:#f5f6ff}
+.ft-action.taken{background:var(--goodbg)}
+.ft-action.skipped{opacity:.5}
+.ft-branch{display:flex;align-items:center;gap:6px;padding:6px 13px;font-size:.8rem;border-bottom:1px solid #f5f6f8}
+.ft-branch.taken{background:rgba(19,117,71,.05)}
+.ft-branch.skipped{opacity:.5}
+.ft-icon{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--primary2);color:var(--primary);font-weight:800;font-size:.78rem;font-family:system-ui,sans-serif;flex-shrink:0}
+.ft-arrow{color:var(--muted);font-size:.9rem}
+.ft-taken-label{color:var(--good);font-weight:700;font-size:.78rem}
+.ft-skipped-label{color:var(--muted);font-size:.78rem}
+
+.cond-eval{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.cond-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 13px;border-radius:9px;font-size:.84rem;border:1px solid var(--line);background:#fafbff;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.76rem;font-weight:800;font-family:system-ui,sans-serif}
+.chip.true{background:var(--goodbg);color:var(--good)}
+.chip.false{background:var(--badbg);color:var(--bad)}
+.cond-result{margin-top:8px;padding:10px 13px;border-radius:10px;font-weight:700;font-size:.86rem;font-family:system-ui,sans-serif}
+.cond-result.true{background:var(--goodbg);color:var(--good);border:1px solid #b6e4c8}
+.cond-result.false{background:var(--badbg);color:var(--bad);border:1px solid #f4c4c0}
+
+.sim-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.sim-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.sim-card .small-label{display:block;margin-bottom:3px}
+.sim-card strong{font-size:1.05rem}
+.sim-card.total{border-color:var(--primary);background:var(--primary2)}
+.sim-card.total strong{color:var(--primary)}
+
+.branch-path{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.branch-step{display:flex;align-items:center;gap:8px;font-size:.83rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;padding:7px 11px;border-radius:8px;flex-wrap:wrap}
+.branch-step.pass{background:var(--goodbg);color:var(--good);border:1px solid #b6e4c8}
+.branch-step.fail{background:#f5f6f8;color:var(--muted);border:1px solid #e5e9f2}
+
+/* === SWAP-BOX VISUALIZATION === */
+.swap-container{margin:14px 0}
+.swap-goal{background:var(--hintbg);border:1px solid #f4df9d;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.swap-goal-label{font-size:.8rem;font-weight:800;color:var(--hint);text-transform:uppercase;letter-spacing:.03em}
+.swap-goal-item{background:#fff;border-radius:6px;padding:4px 10px;font-size:.85rem;font-weight:700;border:1px solid #f4df9d}
+.swap-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-bottom:16px}
+.swap-box{border:2px solid var(--line);border-radius:14px;padding:14px 10px 12px;text-align:center;background:#fff;transition:all .3s ease;position:relative}
+.swap-box.empty{background:#f5f6f8;border-style:dashed;opacity:.72}
+.swap-box.source{border-color:#f4d03f;background:#fff8e5;transform:scale(1.04);box-shadow:0 4px 14px rgba(244,208,63,.3)}
+.swap-box.target{border-color:var(--good);background:var(--goodbg);transform:scale(1.04);box-shadow:0 4px 14px rgba(19,117,71,.2)}
+.swap-box-label{font-size:.72rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.swap-box-content{font-size:2.2rem;line-height:1;margin:6px 0;min-height:2.2rem;display:flex;align-items:center;justify-content:center}
+.swap-box-name{font-size:.82rem;font-weight:700;color:var(--ink)}
+.swap-box.empty .swap-box-name{color:var(--muted);font-style:italic;font-weight:500}
+.swap-ops{margin-top:14px}
+.swap-ops-label{font-size:.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px;display:block}
+.swap-op-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.swap-op-buttons button{background:var(--primary2);color:var(--primary);padding:8px 16px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:700;font-size:.86rem;transition:all .15s}
+.swap-op-buttons button:hover:not(.invalid){background:var(--primary);color:#fff}
+.swap-op-buttons button.invalid{background:#f5f6f8;color:#c5cad8;cursor:not-allowed}
+.swap-history{margin-top:14px;background:#f8f9fd;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.swap-history-label{font-size:.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px;display:block}
+.swap-history-list{margin:0;padding-left:20px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.84rem}
+.swap-history-list li{padding:2px 0}
+.swap-history-list li.muted{font-family:system-ui,sans-serif;font-style:italic;list-style:none;margin-left:-20px}
+
+/* === GATE VISUALIZATION === */
+.gate-scene{position:relative;height:220px;background:linear-gradient(180deg,#dfe8ff 0%,#c3cef0 100%);border-radius:14px;margin:14px 0;overflow:hidden;box-shadow:inset 0 -20px 40px rgba(0,0,0,.06)}
+.gate-ground{position:absolute;left:0;right:0;bottom:0;height:44px;background:linear-gradient(180deg,#b5bfd6,#8a96b5);border-top:2px solid #7a85a0}
+.gate-person{position:absolute;bottom:40px;left:20px;font-size:3rem;line-height:1;z-index:3;transition:left 1.3s cubic-bezier(.4,.1,.3,1)}
+.gate-scene.pass .gate-person{left:calc(100% - 70px)}
+.gate-scene.fail .gate-person{animation:gateBounce .9s ease}
+@keyframes gateBounce{0%{left:20px}35%{left:calc(50% - 60px)}70%{left:30px}100%{left:20px}}
+.gate-structure{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);width:110px;height:150px;z-index:2}
+.gate-post{position:absolute;bottom:0;width:12px;height:100%;background:linear-gradient(180deg,#5c6be0,#3d4cbf);border-radius:6px;box-shadow:0 2px 4px rgba(0,0,0,.15)}
+.gate-post.left{left:0}
+.gate-post.right{right:0}
+.gate-topbar{position:absolute;top:0;left:0;right:0;height:14px;background:linear-gradient(180deg,#5c6be0,#3d4cbf);border-radius:6px}
+.gate-barrier{position:absolute;left:12px;top:50%;width:86px;height:16px;background:repeating-linear-gradient(90deg,#ff6b6b 0 14px,#fff 14px 22px);border:2px solid #d64545;border-radius:4px;transform-origin:left center;transition:transform .9s cubic-bezier(.4,0,.2,1);z-index:3}
+.gate-scene.open .gate-barrier{transform:rotate(-82deg)}
+.gate-finish{position:absolute;right:20px;bottom:44px;font-size:2.6rem;z-index:2;opacity:.35;transition:opacity .4s}
+.gate-scene.pass .gate-finish{opacity:1;animation:finishPop .6s ease 1s both}
+@keyframes finishPop{0%{transform:scale(0) rotate(-30deg)}60%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(1) rotate(0)}}
+
+/* === QUEUE VISUALIZATION === */
+.queue-scene{display:flex;gap:14px;align-items:center;padding:16px;background:linear-gradient(135deg,#f5f7ff,#dde4f9);border-radius:14px;margin:14px 0;position:relative;min-height:220px;box-shadow:inset 0 0 30px rgba(70,87,217,.06)}
+.queue-entrance{display:flex;align-items:center;gap:6px;flex-shrink:0;position:relative;z-index:2}
+.queue-person{font-size:2.6rem;line-height:1;transition:transform 1.1s cubic-bezier(.4,.1,.3,1)}
+.queue-arrow{font-size:1.4rem;color:var(--muted);animation:pulseArrow 1.5s ease-in-out infinite}
+@keyframes pulseArrow{0%,100%{opacity:.6;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+.queue-lanes{display:flex;flex-direction:column;gap:10px;flex:1;position:relative;z-index:1}
+.queue-lane{padding:12px 14px;border:2px solid var(--line);border-radius:11px;background:#fff;transition:all .5s ease;opacity:.6}
+.queue-lane.active-lane{border-color:var(--primary);background:var(--primary2);transform:scale(1.03);box-shadow:0 6px 18px rgba(70,87,217,.18);opacity:1}
+.queue-lane.active-lane::after{content:"← kamu di sini";font-size:.72rem;font-weight:800;color:var(--primary);margin-left:8px;text-transform:uppercase;letter-spacing:.03em}
+.queue-lane[data-lane="VIP"].active-lane{border-color:#c9a227;background:#fff8e5}
+.queue-lane[data-lane="VIP"].active-lane::after{color:#8a6d00}
+.queue-lane[data-lane="Premium"].active-lane{border-color:#8a5cdb;background:#f3edff}
+.queue-lane[data-lane="Premium"].active-lane::after{color:#6a3fa8}
+.queue-lane[data-lane="Ekonomi"].active-lane{border-color:var(--good);background:var(--goodbg)}
+.queue-lane[data-lane="Ekonomi"].active-lane::after{color:var(--good)}
+.queue-lane-label{font-weight:800;font-size:.92rem;margin-bottom:2px}
+.queue-lane-rule{font-size:.78rem;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.gate-hist{margin-top:6px;display:flex;flex-direction:column;gap:6px}
+.gate-hist-row{display:flex;align-items:center;gap:10px;padding:7px 11px;border-radius:8px;font-size:.82rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;flex-wrap:wrap;background:#f5f6f8;border:1px solid var(--line)}
+.gate-hist-row.pass{background:var(--goodbg);border-color:#b6e4c8}
+.gate-hist-row.fail{background:#fff5f4;border-color:#f4c4c0}
+.gate-hist-num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--primary2);color:var(--primary);font-weight:800;font-size:.78rem;font-family:system-ui,sans-serif;flex-shrink:0}
+
+/* === COMPACT RESULTS LAYOUT === */
+.mastery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+.mastery-card{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-size:.82rem;transition:background .15s}
+.mastery-card.done{background:var(--goodbg);border-color:#b6e4c8}
+.mastery-card .mc-title{font-weight:700;font-size:.84rem;margin-bottom:3px;color:var(--ink)}
+.mastery-card.done .mc-title{color:var(--good)}
+.mastery-card .mc-meta{display:flex;justify-content:space-between;align-items:center;font-size:.74rem;color:var(--muted);gap:8px}
+.mastery-card.done .mc-meta{color:var(--good)}
+.mastery-card .mc-meta b{font-weight:800}
+.details-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:8px}
+.details-grid .result-item{margin:0;padding:11px 13px}
+.details-grid .result-item h3{margin:0 0 3px;font-size:.9rem}
+.details-grid .result-item .muted{font-size:.76rem}
+.details-grid .result-item p{margin:6px 0;font-size:.82rem}
+.details-grid .result-item .status{font-size:.72rem;padding:2px 7px}
+@media(max-width:760px){
+  .mastery-grid{grid-template-columns:1fr 1fr}
+  .details-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .mastery-grid,.details-grid{grid-template-columns:1fr}
+}
+
+/* === RECOMMENDATIONS SECTIONS === */
+.rec-section{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.rec-section:first-child{margin-top:0;padding-top:0;border-top:0}
+.rec-heading{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.88rem;margin-bottom:10px;color:var(--ink);text-transform:uppercase;letter-spacing:.03em}
+.rec-icon{font-size:1.15rem;line-height:1;text-transform:none}
+.formative-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.formative-card{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff}
+.formative-card.good{background:var(--goodbg);border-color:#b6e4c8}
+.formative-card.warn{background:var(--hintbg);border-color:#f4df9d}
+.formative-card.neutral{background:#f5f6f8;border-color:#d6dae3}
+.fc-title{font-weight:800;font-size:.82rem;margin-bottom:6px}
+.formative-card.good .fc-title{color:var(--good)}
+.formative-card.warn .fc-title{color:var(--hint)}
+.formative-card.neutral .fc-title{color:var(--muted)}
+.fc-list{margin:0;padding-left:16px;font-size:.78rem;line-height:1.5}
+.fc-list li{margin:2px 0}
+.adaptive-card{display:flex;gap:12px;padding:14px;border:1px solid var(--primary);border-radius:12px;background:linear-gradient(135deg,#f5f7ff,#fff);box-shadow:0 2px 8px rgba(70,87,217,.06)}
+.ac-icon{font-size:1.8rem;line-height:1;flex-shrink:0;display:flex;align-items:flex-start;padding-top:2px}
+.ac-body{flex:1;min-width:0}
+.ac-title{font-weight:800;font-size:.95rem;margin-bottom:4px;color:var(--primary)}
+.ac-text{font-size:.85rem;color:var(--ink);margin:0 0 10px}
+.adaptive-card button{padding:7px 12px;font-size:.83rem}
+.mindset-card{display:flex;gap:12px;padding:14px;border:1px solid #b6e4c8;border-radius:12px;background:var(--goodbg)}
+.ms-emoji{font-size:2rem;line-height:1;flex-shrink:0}
+.ms-body{flex:1}
+.ms-title{font-weight:800;font-size:.92rem;color:var(--good);margin-bottom:4px}
+.ms-text{font-size:.84rem;color:var(--ink);margin:0;line-height:1.55}
+@media(max-width:760px){
+  main{margin-top:16px}.panel{padding:17px}.hero,.columns{grid-template-columns:1fr}.module-grid{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr 1fr}.level-row{grid-template-columns:1fr 1fr}
+  .sim-card-grid{grid-template-columns:1fr}
+  .gate-scene{height:180px}
+  .gate-person{font-size:2.4rem}
+  .queue-scene{flex-direction:column;align-items:stretch;min-height:auto}
+  .queue-entrance{justify-content:center}
+}
+@media(max-width:480px){
+  .adaptive-card,.mindset-card{flex-direction:column}
+  .ac-icon,.ms-emoji{font-size:1.6rem}
+}
+@media(max-width:420px){
+  .hero-stats{grid-template-columns:1fr 1fr}.result-grid{grid-template-columns:1fr}.question-title{display:block}.points{display:inline-block;margin-top:8px}
+  .level-row{grid-template-columns:1fr}
+  .pseudocode-display{font-size:.78rem}
+  .pseudocode-display .code-line .line-num{width:26px;margin-right:10px}
+  .gate-structure{width:90px;height:120px}
+  .gate-barrier{width:66px}
+}
 </style>
 </head>
 <body>
@@ -107,55 +299,33 @@ footer{max-width:1120px;margin:auto;padding:0 18px 28px;color:var(--muted);font-
       </div>
       <div class="hero-stats">
         <div class="stat"><strong>2</strong><span class="muted">Modul</span></div>
-        <div class="stat"><strong>4</strong><span class="muted">Level</span></div>
-        <div class="stat"><strong>8</strong><span class="muted">Latihan</span></div>
-        <div class="stat"><strong>80</strong><span class="muted">Poin maksimal</span></div>
+        <div class="stat"><strong>4</strong><span class="muted">Tingkat Level</span></div>
+        <div class="stat"><strong id="statTotalExercises">20</strong><span class="muted">Latihan</span></div>
+        <div class="stat"><strong id="statTotalPoints">0%</strong><span class="muted">Progres</span></div>
       </div>
     </div>
-    
+
 <div class="panel">
   <h2>Pilih modul pembelajaran</h2>
-  <p class="muted">
-    Mulai dari konsep dasar, lalu lanjutkan ke penerapan.
-    Level 2 terbuka setelah kedua latihan Level 1 pada modul
-    yang sama diselesaikan.
-  </p>
+  <p class="muted">Mulai dari konsep dasar, lalu lanjutkan ke level penerapan, analisis, dan evaluasi. Setiap level terbuka setelah semua latihan pada level sebelumnya diselesaikan.</p>
 
   <div class="module-grid">
     <article class="module-card">
       <div class="module-icon">MODUL 1</div>
       <h3>Algoritma Sekuensial</h3>
-      <p>
-        Pelajari langkah yang dijalankan secara berurutan,
-        dari menyiapkan data hingga menampilkan hasil.
-      </p>
-      <div class="muted" id="seqProgress">
-        0 dari 4 latihan selesai
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="seqBar"></div>
-      </div>
-      <button class="primary" data-open-module="seq">
-        Buka modul
-      </button>
+      <p>Pelajari langkah yang dijalankan secara berurutan, dari menyiapkan data hingga menampilkan hasil.</p>
+      <div class="muted" id="seqProgress">0 dari 10 latihan selesai</div>
+      <div class="progress-track"><div class="progress-fill" id="seqBar"></div></div>
+      <button class="primary" data-open-module="seq">Buka modul</button>
     </article>
 
     <article class="module-card">
       <div class="module-icon">MODUL 2</div>
       <h3>Algoritma Percabangan</h3>
-      <p>
-        Pelajari cara memilih tindakan berdasarkan kondisi
-        dan memeriksa hasil logika program.
-      </p>
-      <div class="muted" id="ifProgress">
-        0 dari 4 latihan selesai
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="ifBar"></div>
-      </div>
-      <button class="primary" data-open-module="if">
-        Buka modul
-      </button>
+      <p>Pelajari cara memilih tindakan berdasarkan kondisi dan memeriksa hasil logika program.</p>
+      <div class="muted" id="ifProgress">0 dari 10 latihan selesai</div>
+      <div class="progress-track"><div class="progress-fill" id="ifBar"></div></div>
+      <button class="primary" data-open-module="if">Buka modul</button>
     </article>
   </div>
 </div>
@@ -164,7 +334,7 @@ footer{max-width:1120px;margin:auto;padding:0 18px 28px;color:var(--muted);font-
       <h2>Cara menggunakan PseudoLab</h2>
       <ol>
         <li>Baca materi singkat dan perhatikan contoh pseudocode.</li>
-        <li>Kerjakan dua latihan Level 1, lalu lanjutkan ke Level 2.</li>
+        <li>Kerjakan latihan Level 1, lalu lanjutkan ke level berikutnya secara berurutan.</li>
         <li>Gunakan petunjuk kapan pun dibutuhkan. Petunjuk tidak mengurangi skor.</li>
         <li>Baca umpan balik dan tinjau hasil belajar untuk mengetahui bagian yang perlu dipelajari kembali.</li>
       </ol>
@@ -186,8 +356,18 @@ footer{max-width:1120px;margin:auto;padding:0 18px 28px;color:var(--muted);font-
       <div class="muted" id="moduleProgressText"></div>
       <div class="progress-track"><div class="progress-fill" id="moduleBar"></div></div>
       <div class="level-row">
-        <button class="level-button active" id="level1Button"><strong>Level 1 · Dasar</strong><small>Memahami konsep dan mengenali pola</small></button>
-        <button class="level-button locked" id="level2Button"><strong>Level 2 · Penerapan</strong><small id="level2Status">Selesaikan dua latihan Level 1 terlebih dahulu</small></button>
+        <button class="level-button active" id="level1Button" data-level="1">
+          <strong>Level 1 · Dasar</strong><small>Memahami konsep dan mengenali pola</small>
+        </button>
+        <button class="level-button locked" id="level2Button" data-level="2">
+          <strong>Level 2 · Penerapan</strong><small>Menerapkan konsep pada masalah</small>
+        </button>
+        <button class="level-button locked" id="level3Button" data-level="3">
+          <strong>Level 3 · Analisis</strong><small>Menganalisis alur dan kesalahan</small>
+        </button>
+        <button class="level-button locked" id="level4Button" data-level="4">
+          <strong>Level 4 · Evaluasi</strong><small>Membangun solusi lengkap</small>
+        </button>
       </div>
       <div class="exercise-nav" id="exerciseNav"></div>
     </div>
@@ -215,9 +395,9 @@ footer{max-width:1120px;margin:auto;padding:0 18px 28px;color:var(--muted);font-
       <h2 style="margin-top:10px">Perjalanan belajarmu</h2>
       <p class="muted">Gunakan ringkasan ini untuk melihat latihan yang telah selesai dan menentukan materi yang perlu ditinjau kembali.</p>
       <div class="result-grid">
-        <div class="result-stat"><span class="muted">Skor latihan</span><strong id="finalScore">0/80</strong><span class="muted">poin</span></div>
-        <div class="result-stat"><span class="muted">Latihan selesai</span><strong id="completedCount">0/8</strong><span class="muted">latihan</span></div>
-        <div class="result-stat"><span class="muted">Benar percobaan pertama</span><strong id="firstTryCount">0/8</strong><span class="muted">latihan</span></div>
+        <div class="result-stat"><span class="muted">Skor latihan</span><strong id="finalScore">0%</strong><span class="muted" id="finalScoreDetail">0 dari 200 poin</span></div>
+        <div class="result-stat"><span class="muted">Latihan selesai</span><strong id="completedCount">0/20</strong><span class="muted">latihan</span></div>
+        <div class="result-stat"><span class="muted">Benar percobaan pertama</span><strong id="firstTryCount">0/20</strong><span class="muted">latihan</span></div>
       </div>
       <div class="lesson-box" style="margin-top:18px">
         <h3 style="margin-top:0">Konsep yang sudah kamu latih</h3>
@@ -261,11 +441,7 @@ const modules = {
           {id:"data",text:"Tentukan harga dan jumlah pensil."}
         ],
         answer:["data","calc","out"],
-        hints:[
-          "Petunjuk 1: Algoritma memiliki urutan: data disiapkan, proses dilakukan, lalu hasil ditampilkan.",
-          "Petunjuk 2: Langkah menghitung total membutuhkan nilai harga dan jumlah terlebih dahulu.",
-          "Pembahasan: Urutan benar adalah tentukan harga dan jumlah → hitung total → tampilkan hasil."
-        ],
+        hints:["Petunjuk 1: Algoritma memiliki urutan: data disiapkan, proses dilakukan, lalu hasil ditampilkan.","Petunjuk 2: Langkah menghitung total membutuhkan nilai harga dan jumlah terlebih dahulu.","Pembahasan: Urutan benar adalah tentukan harga dan jumlah → hitung total → tampilkan hasil."],
         explain:"Data harus ditentukan terlebih dahulu, kemudian total dihitung, baru hasil ditampilkan.",
         firstTry:10, retry:5
       },
@@ -273,11 +449,7 @@ const modules = {
         id:"seq2",level:1,title:"Latihan 2 · Menentukan output",type:"choice",concept:"Input, proses, dan output",
         prompt:"Harga satu pensil Rp4.000 dan jumlah yang dibeli 3. Pseudocode menjalankan `total ← harga × jumlah`. Berapa output total harga?",
         options:[["a","Rp7.000"],["b","Rp12.000"],["c","Rp4.000"]],answer:"b",
-        hints:[
-          "Petunjuk 1: Perhatikan operasi yang digunakan dalam pseudocode.",
-          "Petunjuk 2: Hitung 4.000 dikalikan 3.",
-          "Pembahasan: 4.000 × 3 = 12.000, jadi output-nya Rp12.000."
-        ],
+        hints:["Petunjuk 1: Perhatikan operasi yang digunakan dalam pseudocode.","Petunjuk 2: Hitung 4.000 dikalikan 3.","Pembahasan: 4.000 × 3 = 12.000, jadi output-nya Rp12.000."],
         explain:"Operasi perkalian menghitung harga total: Rp4.000 × 3 = Rp12.000.",
         firstTry:10,retry:5
       },
@@ -293,23 +465,96 @@ const modules = {
           {id:"stock",text:"tersedia ← 10"}
         ],
         answer:["students","per","stock","need","remain","show"],
-        hints:[
-          "Petunjuk 1: Mulai dengan menetapkan semua nilai yang dibutuhkan.",
-          "Petunjuk 2: Hitung kebutuhan sebelum menghitung sisa. Sisa = tersedia − kebutuhan.",
-          "Pembahasan: Tetapkan data → hitung kebutuhan → hitung sisa → tampilkan hasil. Kebutuhan 8, sisa 2."
-        ],
+        hints:["Petunjuk 1: Mulai dengan menetapkan semua nilai yang dibutuhkan.","Petunjuk 2: Hitung kebutuhan sebelum menghitung sisa. Sisa = tersedia − kebutuhan.","Pembahasan: Tetapkan data → hitung kebutuhan → hitung sisa → tampilkan hasil. Kebutuhan 8, sisa 2."],
         explain:"Data awal harus tersedia terlebih dahulu. Setelah kebutuhan dihitung, sisa dapat diperoleh dengan mengurangi stok dengan kebutuhan.",
         firstTry:10,retry:5
       },
       {
         id:"seq4",level:2,title:"Latihan 4 · Simulasi input–output",type:"sim",concept:"Simulasi input–proses–output",
         prompt:"Uji pseudocode untuk menghitung kebutuhan headset dan sisa stok. Setiap murid membutuhkan satu headset. Ubah input, lalu jalankan simulasi.",
-        hints:[
-          "Petunjuk 1: Hitung kebutuhan headset berdasarkan jumlah murid.",
-          "Petunjuk 2: Kurangi jumlah headset tersedia dengan kebutuhan. Hasil negatif berarti stok kurang.",
-          "Pembahasan: Kebutuhan = jumlah murid × 1. Sisa = tersedia − kebutuhan. Jika sisa negatif, itu menunjukkan kekurangan."
-        ],
+        hints:["Petunjuk 1: Hitung kebutuhan headset berdasarkan jumlah murid.","Petunjuk 2: Kurangi jumlah headset tersedia dengan kebutuhan. Hasil negatif berarti stok kurang.","Pembahasan: Kebutuhan = jumlah murid × 1. Sisa = tersedia − kebutuhan. Jika sisa negatif, itu menunjukkan kekurangan."],
         explain:"Simulasi memperlihatkan bagaimana perubahan input memengaruhi hasil perhitungan.",
+        firstTry:10,retry:5
+      },
+      {
+        id:"seq5",level:3,title:"Latihan 5 · Menelusuri nilai variabel",type:"choice",concept:"Penelusuran nilai variabel (trace)",
+        prompt:"Perhatikan pseudocode berikut. Setiap instruksi mengubah nilai variabel. Tentukan nilai akhir variabel total.",
+        pseudocode: `harga ← 5000\njumlah ← 2\nsubtotal ← harga × jumlah\npajak ← subtotal × 0.1\ntotal ← subtotal + pajak\nTAMPILKAN total`,
+        trace: {
+          headers: ["Langkah", "Instruksi", "harga", "jumlah", "subtotal", "pajak", "total"],
+          targetCol: 6,
+          rows: [
+            ["1", "harga ← 5000", "5000", "–", "–", "–", "–"],
+            ["2", "jumlah ← 2", "5000", "2", "–", "–", "–"],
+            ["3", "subtotal ← harga × jumlah", "5000", "2", "10000", "–", "–"],
+            ["4", "pajak ← subtotal × 0.1", "5000", "2", "10000", "1000", "–"],
+            ["5", "total ← subtotal + pajak", "5000", "2", "10000", "1000", "11000"]
+          ]
+        },
+        options:[["a","Rp10.000"],["b","Rp11.000"],["c","Rp5.500"],["d","Rp12.000"]],
+        answer:"b",
+        hints:["Petunjuk 1: Ikuti tabel dari atas ke bawah. Setiap baris menunjukkan nilai variabel setelah instruksi dijalankan.","Petunjuk 2: subtotal = 5000 × 2 = 10000. Pajak = 10% dari subtotal.","Pembahasan: total = subtotal + pajak = 10000 + 1000 = 11000."],
+        explain:"subtotal = 5000 × 2 = 10000; pajak = 10000 × 0.1 = 1000; total = 10000 + 1000 = 11000.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"seq6",level:3,title:"Latihan 6 · Menemukan kesalahan logika",type:"choice",concept:"Debugging pseudocode",
+        prompt:"Pseudocode berikut dimaksudkan menghitung keliling persegi panjang dengan panjang 10 dan lebar 5. Keliling yang benar adalah 2 × (panjang + lebar) = 30, tetapi pseudocode menghasilkan 15. Baris mana yang salah dan apa perbaikannya?",
+        pseudocode: `panjang ← 10\nlebar ← 5\nluas ← panjang × lebar\nkeliling ← panjang + lebar\nTAMPILKAN luas\nTAMPILKAN keliling`,
+        highlightLines: [4],
+        options:[["a","Baris 3 seharusnya `luas ← panjang + lebar`"],["b","Baris 4 seharusnya `keliling ← 2 × (panjang + lebar)`"],["c","Baris 6 seharusnya `TAMPILKAN luas`"]],
+        answer:"b",
+        hints:["Petunjuk 1: Rumus keliling persegi panjang adalah 2 × (panjang + lebar).","Petunjuk 2: Bandingkan baris 4 dengan rumus keliling yang benar.","Pembahasan: Baris 4 hanya menjumlahkan panjang + lebar, seharusnya 2 × (panjang + lebar)."],
+        explain:"Baris 4 kurang tepat karena hanya menjumlahkan panjang + lebar (10 + 5 = 15). Rumus keliling yang benar adalah 2 × (panjang + lebar) = 30.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"seq7",level:3,title:"Latihan 7 · Menukar isi kardus",type:"swapbox",concept:"Swap dengan variabel sementara",
+        prompt:"Kardus A berisi komputer 💻 dan kardus B berisi keyboard ⌨️. Kardus C kosong. Pindahkan isi kardus sehingga A berisi keyboard dan B berisi komputer (C kembali kosong). Gunakan kardus C sebagai tempat sementara. Kamu hanya bisa memindahkan isi ke kardus yang kosong.",
+        initial:{A:"komputer",B:"keyboard",C:""},
+        goal:{A:"keyboard",B:"komputer",C:""},
+        boxes:["A","B","C"],
+        boxLabels:{A:"Kardus A",B:"Kardus B",C:"Kardus C"},
+        itemEmoji:{komputer:"💻",keyboard:"⌨️"},
+        minSteps:3,
+        hints:["Petunjuk 1: Kamu tidak bisa memindahkan isi ke kardus yang masih berisi. Gunakan kardus C yang kosong sebagai tempat sementara.","Petunjuk 2: Pindahkan dulu isi kardus A ke kardus C yang kosong. Setelah A kosong, baru bisa menerima isi dari B.","Pembahasan: C ← A, lalu A ← B, lalu B ← C. Hasilnya A=keyboard, B=komputer, C=kosong."],
+        explain:"Untuk menukar dua isi kardus, diperlukan kardus kosong sebagai tempat sementara — sama seperti variabel temp dalam pemrograman.",
+        firstTry:10,retry:5
+      },
+      {
+        id:"seq8",level:4,title:"Latihan 8 · Menyusun solusi lengkap",type:"order",concept:"Menyusun pseudocode dari masalah nyata",
+        prompt:"Sebuah warung kopi menjual kopi Rp8.000 per gelas. Pelanggan membeli 4 gelas dan mendapat diskon Rp3.000. Susun pseudocode untuk menghitung dan menampilkan total yang harus dibayar.",
+        blocks:[
+          {id:"harga",text:"hargaPerGelas ← 8000"},
+          {id:"jumlah",text:"jumlahGelas ← 4"},
+          {id:"subtotal",text:"subtotal ← hargaPerGelas × jumlahGelas"},
+          {id:"diskon",text:"diskon ← 3000"},
+          {id:"total",text:"totalBayar ← subtotal - diskon"},
+          {id:"show",text:"TAMPILKAN totalBayar"}
+        ],
+        answer:["harga","jumlah","subtotal","diskon","total","show"],
+        hints:["Petunjuk 1: Tetapkan harga dan jumlah terlebih dahulu, lalu hitung subtotal.","Petunjuk 2: Subtotal dihitung sebelum total. Diskon diketahui sebelum total dihitung.","Pembahasan: subtotal = 8000 × 4 = 32000. totalBayar = 32000 - 3000 = 29000."],
+        explain:"Data harga dan jumlah diperlukan untuk menghitung subtotal. Setelah subtotal dan diskon diketahui, totalBayar dapat dihitung, lalu ditampilkan.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"seq9",level:4,title:"Latihan 9 · Simulasi belanja dengan pajak",type:"sim2",concept:"Simulasi perhitungan bertingkat",
+        prompt:"Uji pseudocode untuk menghitung total belanja dengan PPN. Masukkan harga per buku, jumlah buku, dan persentase PPN. Jalankan simulasi untuk melihat rincian perhitungan.",
+        hints:["Petunjuk 1: Subtotal = harga × jumlah. Pajak = subtotal × (PPN ÷ 100).","Petunjuk 2: Total = subtotal + pajak.","Pembahasan: Contoh: 3 buku @ Rp15.000 dengan PPN 11%. Subtotal = 45.000, pajak = 4.950, total = 49.950."],
+        explain:"Simulasi menunjukkan bagaimana perubahan input memengaruhi subtotal, pajak, dan total.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"seq10",level:4,title:"Latihan 10 · Memutar isi kardus",type:"swapbox",concept:"Rotasi dengan buffer",
+        prompt:"Empat kardus: A berisi apel 🍎, B berisi jeruk 🍊, C berisi anggur 🍇, dan D kosong. Pindahkan isi sehingga A=anggur, B=apel, dan C=jeruk (D kembali kosong). Gunakan D sebagai buffer. Ingat: hanya bisa memindahkan ke kardus kosong. Cari solusi dengan langkah paling sedikit!",
+        initial:{A:"apel",B:"jeruk",C:"anggur",D:""},
+        goal:{A:"anggur",B:"apel",C:"jeruk",D:""},
+        boxes:["A","B","C","D"],
+        boxLabels:{A:"Kardus A",B:"Kardus B",C:"Kardus C",D:"Kardus D"},
+        itemEmoji:{apel:"🍎",jeruk:"🍊",anggur:"🍇"},
+        minSteps:4,
+        hints:["Petunjuk 1: Kamu punya 4 kardus. Setiap langkah memindahkan 1 barang dan mengosongkan 1 kardus. Fokus pada barang mana yang harus dipindah dulu.","Petunjuk 2: Mulai dengan memindahkan isi A ke D (kardus buffer). Setelah itu A kosong dan bisa menerima barang dari kardus lain.","Pembahasan: D ← A, lalu A ← C, lalu C ← B, lalu B ← D. Hasil: A=anggur, B=apel, C=jeruk, D=kosong (4 langkah optimal)."],
+        explain:"Rotasi isi dengan 1 buffer butuh perencanaan. Setiap langkah harus memperhitungkan kardus mana yang akan kosong dan barang mana yang sudah di posisi final.",
         firstTry:10,retry:5
       }
     ]
@@ -329,11 +574,7 @@ const modules = {
         id:"if1",level:1,title:"Latihan 1 · Menentukan hasil kondisi",type:"choice",concept:"Membaca hasil JIKA–JIKA TIDAK",
         prompt:"Program menampilkan “Lulus” jika `nilai >= 75`, dan “Belum lulus” jika kondisi salah. Jika nilai murid 80, apa output-nya?",
         options:[["a","Lulus"],["b","Belum lulus"],["c","Tidak ada output"]],answer:"a",
-        hints:[
-          "Petunjuk 1: Perhatikan nilai yang diuji dan batas minimalnya.",
-          "Petunjuk 2: Bandingkan apakah 80 lebih besar atau sama dengan 75.",
-          "Pembahasan: Kondisi benar karena 80 ≥ 75, sehingga program menampilkan “Lulus”."
-        ],
+        hints:["Petunjuk 1: Perhatikan nilai yang diuji dan batas minimalnya.","Petunjuk 2: Bandingkan apakah 80 lebih besar atau sama dengan 75.","Pembahasan: Kondisi benar karena 80 ≥ 75, sehingga program menampilkan “Lulus”."],
         explain:"Karena 80 lebih besar daripada 75, kondisi bernilai benar dan cabang JIKA dijalankan.",
         firstTry:10,retry:5
       },
@@ -341,11 +582,7 @@ const modules = {
         id:"if2",level:1,title:"Latihan 2 · Memilih kondisi yang tepat",type:"choice",concept:"Operator perbandingan",
         prompt:"Murid dinyatakan lulus jika nilainya minimal 75. Kondisi mana yang tepat agar nilai tepat 75 juga dinyatakan lulus?",
         options:[["a","nilai > 75"],["b","nilai >= 75"],["c","nilai < 75"]],answer:"b",
-        hints:[
-          "Petunjuk 1: Kata kuncinya adalah “minimal 75”, sehingga nilai 75 termasuk.",
-          "Petunjuk 2: Operator `>` saja tidak mencakup nilai yang sama.",
-          "Pembahasan: Gunakan `nilai >= 75` karena artinya lebih besar dari atau sama dengan 75."
-        ],
+        hints:["Petunjuk 1: Kata kuncinya adalah “minimal 75”, sehingga nilai 75 termasuk.","Petunjuk 2: Operator `>` saja tidak mencakup nilai yang sama.","Pembahasan: Gunakan `nilai >= 75` karena artinya lebih besar dari atau sama dengan 75."],
         explain:"Operator >= mencakup nilai yang lebih besar maupun yang sama dengan 75.",
         firstTry:10,retry:5
       },
@@ -361,11 +598,7 @@ const modules = {
           {id:"input",text:"jumlahDibutuhkan ← 8; jumlahTersedia ← 10"}
         ],
         answer:["input","if","true","else","false","end"],
-        hints:[
-          "Petunjuk 1: Nilai input harus tersedia sebelum kondisi diperiksa.",
-          "Petunjuk 2: Tempatkan pesan mencukupi pada kondisi benar dan pesan lainnya pada bagian JIKA TIDAK.",
-          "Pembahasan: Input → JIKA kondisi → pesan benar → JIKA TIDAK → pesan salah → AKHIR JIKA."
-        ],
+        hints:["Petunjuk 1: Nilai input harus tersedia sebelum kondisi diperiksa.","Petunjuk 2: Tempatkan pesan mencukupi pada kondisi benar dan pesan lainnya pada bagian JIKA TIDAK.","Pembahasan: Input → JIKA kondisi → pesan benar → JIKA TIDAK → pesan salah → AKHIR JIKA."],
         explain:"Percabangan harus memiliki kondisi, aksi ketika benar, aksi ketika salah, dan penutup struktur.",
         firstTry:10,retry:5
       },
@@ -373,17 +606,126 @@ const modules = {
         id:"if4",level:2,title:"Latihan 4 · Menguji dan memperbaiki logika",type:"choice",concept:"Menguji kondisi batas",
         prompt:'Sebuah pseudocode memakai `jumlahTersedia > jumlahDibutuhkan` untuk menampilkan “Perangkat mencukupi”. Saat dibutuhkan 8 headset dan tersedia tepat 8, program justru menampilkan “Perangkat belum mencukupi”. Apa perbaikannya?',
         options:[["a","Ganti `>` menjadi `>=`"],["b","Ganti `>` menjadi `<`"],["c","Hapus bagian JIKA TIDAK"]],answer:"a",
-        hints:[
-          "Petunjuk 1: Uji kondisi ketika jumlah tersedia sama dengan jumlah yang dibutuhkan.",
-          "Petunjuk 2: Operator `>` hanya benar jika nilai di kiri lebih besar, bukan sama.",
-          "Pembahasan: Ganti `>` menjadi `>=` agar jumlah yang sama juga dianggap mencukupi."
-        ],
+        hints:["Petunjuk 1: Uji kondisi ketika jumlah tersedia sama dengan jumlah yang dibutuhkan.","Petunjuk 2: Operator `>` hanya benar jika nilai di kiri lebih besar, bukan sama.","Pembahasan: Ganti `>` menjadi `>=` agar jumlah yang sama juga dianggap mencukupi."],
         explain:"Operator >= menangani kondisi lebih besar atau sama dengan. Ini memperbaiki kasus batas ketika stok sama persis dengan kebutuhan.",
         firstTry:10,retry:5
+      },
+      {
+        id:"if5",level:3,title:"Latihan 5 · Percabangan bersarang",type:"choice",concept:"Percabangan bersarang (nested)",
+        prompt:"Perhatikan pseudocode percabangan bersarang berikut. Jika nilai = 90, output apa yang ditampilkan?",
+        pseudocode: `INPUT nilai\nJIKA nilai >= 85 MAKA\n    JIKA nilai >= 95 MAKA\n        TAMPILKAN "A+"\n    JIKA TIDAK\n        TAMPILKAN "A"\n    AKHIR JIKA\nJIKA TIDAK\n    TAMPILKAN "B"\nAKHIR JIKA`,
+        flowTrace: [
+          {depth:0, type:"condition", text:"JIKA nilai >= 85 MAKA", eval:"90 >= 85", truth:true},
+          {depth:1, type:"branch", label:"BENAR", taken:true},
+          {depth:1, type:"condition", text:"JIKA nilai >= 95 MAKA", eval:"90 >= 95", truth:false},
+          {depth:2, type:"branch", label:"BENAR", taken:false},
+          {depth:2, type:"action", text:'TAMPILKAN "A+"', taken:false},
+          {depth:2, type:"branch", label:"SALAH", taken:true},
+          {depth:2, type:"action", text:'TAMPILKAN "A"', taken:true},
+          {depth:1, type:"branch", label:"SALAH", taken:false},
+          {depth:1, type:"action", text:'TAMPILKAN "B"', taken:false}
+        ],
+        options:[["a",'"A+"'],["b",'"A"'],["c",'"B"']],
+        answer:"b",
+        hints:["Petunjuk 1: Periksa kondisi luar terlebih dahulu: apakah 90 >= 85?","Petunjuk 2: Karena 90 >= 85 bernilai benar, periksa kondisi di dalamnya: apakah 90 >= 95?","Pembahasan: 90 >= 85 BENAR, lalu 90 >= 95 SALAH, sehingga cabang JIKA TIDAK dalam dijalankan: \"A\"."],
+        explain:"Kondisi luar 90 >= 85 bernilai BENAR. Di dalamnya, 90 >= 95 bernilai SALAH sehingga cabang JIKA TIDAK dijalankan: menampilkan \"A\".",
+        firstTry:10, retry:5
+      },
+      {
+        id:"if6",level:3,title:"Latihan 6 · Kondisi majemuk",type:"choice",concept:"Kondisi majemuk (DAN/TIDAK)",
+        prompt:"Seseorang boleh membuat SIM jika umurnya minimal 17 tahun DAN memiliki KTP. Jika umur = 16 dan punyaKTP = \"ya\", output apa yang muncul?",
+        pseudocode: `INPUT umur\nINPUT punyaKTP\nJIKA (umur >= 17) DAN (punyaKTP = "ya") MAKA\n    TAMPILKAN "Boleh membuat SIM"\nJIKA TIDAK\n    TAMPILKAN "Belum boleh"\nAKHIR JIKA`,
+        conditions: [
+          {label:"umur >= 17", eval:"16 >= 17", truth:false},
+          {label:'punyaKTP = "ya"', eval:'"ya" = "ya"', truth:true}
+        ],
+        combinedEval: "SALAH DAN BENAR",
+        combinedTruth: false,
+        options:[["a",'"Boleh membuat SIM"'],["b",'"Belum boleh"']],
+        answer:"b",
+        hints:["Petunjuk 1: Evaluasi setiap bagian kondisi secara terpisah.","Petunjuk 2: Kondisi DAN hanya bernilai benar jika KEDUA bagian benar.","Pembahasan: umur >= 17 SALAH, punyaKTP = \"ya\" BENAR. SALAH DAN BENAR = SALAH, sehingga output \"Belum boleh\"."],
+        explain:"16 >= 17 bernilai SALAH. Karena operator DAN membutuhkan kedua kondisi benar, hasil gabungannya SALAH. Program menjalankan cabang JIKA TIDAK: \"Belum boleh\".",
+        firstTry:10, retry:5
+      },
+      {
+        id:"if9",level:3,title:"Latihan 7 · Gerbang Wahana",type:"gate",concept:"Percabangan dengan dua kondisi (DAN)",
+        prompt:"Wahana Roller Coaster hanya boleh dinaiki jika pengunjung berumur minimal 12 tahun DAN tingginya minimal 140 cm. Atur umur dan tinggi, lalu klik 'Coba Masuk Gerbang'. Untuk menyelesaikan latihan, coba minimal SATU kasus yang lolos dan SATU kasus yang ditolak.",
+        gate:{
+          conditions:[
+            {label:"umur >= 12", field:"umur", test:(v)=>v>=12},
+            {label:"tinggi >= 140", field:"tinggi", test:(v)=>v>=140}
+          ],
+          inputs:[
+            {id:"umur", label:"Umur (tahun)", min:1, max:100, default:15},
+            {id:"tinggi", label:"Tinggi (cm)", min:50, max:200, default:145}
+          ],
+          minTrials:2
+        },
+        hints:["Petunjuk 1: Kedua kondisi harus benar bersamaan. Coba atur salah satu input di bawah batas untuk melihat gerbang menolak.","Petunjuk 2: Untuk lolos, atur umur ≥ 12 DAN tinggi ≥ 140. Untuk ditolak, cukup salah satu di bawah batas.","Pembahasan: Gerbang hanya terbuka saat umur ≥ 12 DAN tinggi ≥ 140. Jika salah satu gagal, pengunjung ditolak."],
+        explain:"Percabangan dengan operator DAN mensyaratkan SEMUA kondisi benar. Jika satu saja salah, hasil gabungannya salah.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"if7",level:4,title:"Latihan 8 · Menyusun diskon bertingkat",type:"order",concept:"Menyusun percabangan bertingkat",
+        prompt:"Toko memberi diskon 10% jika total belanja minimal Rp50.000, dan diskon 20% jika total belanja minimal Rp100.000. Total belanja pelanggan Rp120.000. Susun blok pseudocode agar diskon 10% dicek lebih dulu, lalu diskon 20% menimpa nilai sebelumnya jika memenuhi. Hasil akhir diskon yang diharapkan: Rp24.000.",
+        blocks:[
+          {id:"total",text:"total ← 120000"},
+          {id:"init",text:"diskon ← 0"},
+          {id:"if1",text:"JIKA total >= 50000 MAKA"},
+          {id:"d1",text:"diskon ← total × 0.1"},
+          {id:"end1",text:"AKHIR JIKA  (blok diskon 10%)"},
+          {id:"if2",text:"JIKA total >= 100000 MAKA"},
+          {id:"d2",text:"diskon ← total × 0.2"},
+          {id:"end2",text:"AKHIR JIKA  (blok diskon 20%)"},
+          {id:"show",text:"TAMPILKAN diskon"}
+        ],
+        answer:["total","init","if1","d1","end1","if2","d2","end2","show"],
+        hints:["Petunjuk 1: Mulai dengan menetapkan total belanja dan nilai diskon awal.","Petunjuk 2: Periksa diskon 10% terlebih dahulu, lalu diskon 20%. Diskon 20% menimpa nilai sebelumnya jika total memenuhi.","Pembahasan: total = 120000. Cek >= 50000 → diskon = 12000. Cek >= 100000 → diskon = 24000. Output: 24000."],
+        explain:"Dua percabangan dijalankan berurutan. Jika total memenuhi syarat diskon 20%, nilai diskon menimpa hasil sebelumnya. Untuk total 120000, diskon akhir = 24000.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"if8",level:4,title:"Latihan 9 · Simulasi percabangan harga tiket",type:"sim2",concept:"Simulasi percabangan",
+        prompt:"Sebuah bioskop menentukan harga tiket berdasarkan umur: di bawah 12 tahun Rp25.000, 12–17 tahun Rp35.000, dan 18 tahun ke atas Rp50.000. Isi umur, klik 'Jalankan simulasi', lalu klik 'Periksa hasil simulasi'.",
+        hints:["Petunjuk 1: Periksa batas umur: apakah kurang dari 12, antara 12 dan 17, atau minimal 18.","Petunjuk 2: Setiap kelompok umur memiliki harga tiket yang berbeda.","Pembahasan: Umur 10 → Rp25.000. Umur 15 → Rp35.000. Umur 20 → Rp50.000."],
+        explain:"Percabangan memilih harga berdasarkan kelompok umur. Setiap input menghasilkan satu kategori dan satu harga.",
+        firstTry:10, retry:5
+      },
+      {
+        id:"if10",level:4,title:"Latihan 10 · Antrean Multi-Jalur",type:"queue",concept:"Percabangan bertingkat (if/else if/else)",
+        prompt:"Sebuah acara memiliki 3 jalur masuk berdasarkan status. Aturan: (1) Member berumur ≥ 18 tahun → VIP. (2) Member ATAU berumur ≥ 18 tahun → Premium. (3) Selain itu → Ekonomi. Atur status member dan umur, lalu klik 'Proses Antrean'. Untuk menyelesaikan latihan, kunjungi KETIGA jalur minimal sekali.",
+        queue:{
+          lanes:[
+            {id:"VIP", label:"👑 VIP", rule:"Member DAN umur ≥ 18"},
+            {id:"Premium", label:"⭐ Premium", rule:"Member ATAU umur ≥ 18"},
+            {id:"Ekonomi", label:"🎫 Ekonomi", rule:"Tidak memenuhi keduanya"}
+          ],
+          inputs:[
+            {id:"member", label:"Status Member", type:"select", options:[{value:"ya",label:"Ya"},{value:"tidak",label:"Tidak"}], default:"ya"},
+            {id:"umur", label:"Umur", type:"number", min:1, max:100, default:20}
+          ],
+          route:(input)=>{
+            if(input.member==="ya" && input.umur>=18) return "VIP";
+            if(input.member==="ya" || input.umur>=18) return "Premium";
+            return "Ekonomi";
+          },
+          minTrials:3
+        },
+        hints:["Petunjuk 1: Ada 3 jalur. Perhatikan urutan: cek VIP dulu (paling ketat), lalu Premium, lalu Ekonomi.","Petunjuk 2: Coba tiga kombinasi berbeda: (member=ya, umur≥18) → VIP; (member=tidak, umur≥18) → Premium; (member=tidak, umur<18) → Ekonomi.","Pembahasan: Urutan if/else if/else memeriksa kondisi dari yang paling ketat. VIP butuh kedua syarat; Premium butuh salah satu; Ekonomi jika keduanya tidak terpenuhi."],
+        explain:"Percabangan bertingkat memeriksa kondisi secara berurutan. Cabang pertama yang terpenuhi yang dipilih. Urutan pengecekan penting agar hasil sesuai aturan.",
+        firstTry:10, retry:5
       }
     ]
   }
 };
+
+const levelDescriptions = {
+  1: "Memahami konsep dan mengenali pola",
+  2: "Menerapkan konsep pada masalah",
+  3: "Menganalisis alur dan kesalahan",
+  4: "Membangun solusi lengkap"
+};
+const MAX_LEVEL = 4;
 
 let currentModule="seq", currentLevel=1, currentIndex=0;
 const progress={};
@@ -397,24 +739,38 @@ let currentOrder={};
 function allExercises(){return Object.values(modules).flatMap(m=>m.exercises)}
 function getExercise(){return modules[currentModule].exercises.filter(e=>e.level===currentLevel)[currentIndex]}
 function levelExercises(moduleKey,level){return modules[moduleKey].exercises.filter(e=>e.level===level)}
-function isLevelUnlocked(moduleKey,level){return level===1 || levelExercises(moduleKey,1).every(e=>progress[e.id].completed)}
+function isLevelUnlocked(moduleKey,level){
+  if(level===1)return true;
+  for(let l=1;l<level;l++){
+    const exs=levelExercises(moduleKey,l);
+    if(!exs.every(e=>progress[e.id].completed))return false;
+  }
+  return true;
+}
 function countCompleted(moduleKey){return modules[moduleKey].exercises.filter(e=>progress[e.id].completed).length}
 function totalScore(){return allExercises().reduce((sum,e)=>sum+progress[e.id].score,0)}
+function computeProgressPercent(){
+  const max = allExercises().length * 10;
+  return Math.round(totalScore() / max * 100);
+}
 function showView(id){
   ["homeView","moduleView","resultsView"].forEach(v=>$(v).classList.toggle("hidden",v!==id));
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function updateHome(){
   const seqCount=countCompleted("seq"), ifCount=countCompleted("if");
-  $("seqProgress").textContent=`${seqCount} dari 4 latihan selesai`;
-  $("ifProgress").textContent=`${ifCount} dari 4 latihan selesai`;
-  $("seqBar").style.width=`${seqCount/4*100}%`;
-  $("ifBar").style.width=`${ifCount/4*100}%`;
+  const seqTotal=modules.seq.exercises.length, ifTotal=modules.if.exercises.length;
+  $("seqProgress").textContent=`${seqCount} dari ${seqTotal} latihan selesai`;
+  $("ifProgress").textContent=`${ifCount} dari ${ifTotal} latihan selesai`;
+  $("seqBar").style.width=`${seqCount/seqTotal*100}%`;
+  $("ifBar").style.width=`${ifCount/ifTotal*100}%`;
+  $("statTotalExercises").textContent=allExercises().length;
+  $("statTotalPoints").textContent=computeProgressPercent()+"%";
 }
 function openModule(key, level=1, index=0){
   currentModule=key;
   let safeLevel=level;
-  if(safeLevel===2 && !isLevelUnlocked(key,2)){
+  if(safeLevel>MAX_LEVEL||!isLevelUnlocked(key,safeLevel)){
     safeLevel=1;
     index=0;
   }
@@ -430,13 +786,16 @@ function openModule(key, level=1, index=0){
 }
 function renderModule(){
   const done=countCompleted(currentModule);
-  $("moduleProgressText").textContent=`${done} dari 4 latihan selesai`;
-  $("moduleBar").style.width=`${done/4*100}%`;
+  const total=modules[currentModule].exercises.length;
+  $("moduleProgressText").textContent=`${done} dari ${total} latihan selesai`;
+  $("moduleBar").style.width=`${done/total*100}%`;
   refreshLevelAccess();
   $("exerciseNav").innerHTML="";
+  const allModuleExercises=modules[currentModule].exercises;
   levelExercises(currentModule,currentLevel).forEach((ex,i)=>{
     const b=document.createElement("button");
-    b.textContent=`Latihan ${i+1}${progress[ex.id].completed?" ✓":""}`;
+    const globalNum=allModuleExercises.indexOf(ex)+1;
+    b.textContent=`Latihan ${globalNum}${progress[ex.id].completed?" ✓":""}`;
     b.className=(i===currentIndex?"active ":"")+(progress[ex.id].completed?"done":"");
     b.addEventListener("click",()=>{currentIndex=i;renderExercise();renderModuleNavOnly();});
     $("exerciseNav").appendChild(b);
@@ -445,68 +804,102 @@ function renderModule(){
 }
 
 function refreshLevelAccess(){
-  const unlocked = isLevelUnlocked(currentModule, 2);
-
-  $("level2Button").disabled = !unlocked;
-  $("level2Button").classList.toggle("locked", !unlocked);
-  $("level2Button").classList.toggle("active", currentLevel === 2);
-  $("level1Button").classList.toggle("active", currentLevel === 1);
-
-  $("level2Status").textContent = unlocked
-    ? "Terbuka · lanjutkan penerapan"
-    : "Selesaikan dua latihan Level 1 terlebih dahulu";
-
-  $("nextExercise").textContent =
-    currentIndex === 1
-      ? (currentLevel === 1 ? "Lanjut ke Level 2 →" : "Selesai modul →")
-      : "Latihan berikutnya →";
-
-  $("nextExercise").disabled =
-    currentIndex === 1 &&
-    currentLevel === 1 &&
-    !unlocked;
+  for(let lvl=1;lvl<=MAX_LEVEL;lvl++){
+    const btn=$(`level${lvl}Button`);
+    const unlocked=isLevelUnlocked(currentModule,lvl);
+    btn.disabled=!unlocked;
+    btn.classList.toggle("locked",!unlocked);
+    btn.classList.toggle("active",currentLevel===lvl);
+    const small=btn.querySelector("small");
+    if(!unlocked){
+      small.textContent=`Selesaikan Level ${lvl-1} terlebih dahulu`;
+    }else{
+      small.textContent=levelDescriptions[lvl];
+    }
+  }
+  const exercises=levelExercises(currentModule,currentLevel);
+  if(currentIndex<exercises.length-1){
+    $("nextExercise").textContent="Latihan berikutnya →";
+    $("nextExercise").disabled=false;
+  }else if(currentLevel<MAX_LEVEL){
+    $("nextExercise").textContent=`Lanjut ke Level ${currentLevel+1} →`;
+    $("nextExercise").disabled=!isLevelUnlocked(currentModule,currentLevel+1);
+  }else{
+    $("nextExercise").textContent="Selesai modul →";
+    $("nextExercise").disabled=false;
+  }
 }
 
 function renderModuleNavOnly(){
-  $("exerciseNav").querySelectorAll("button").forEach((b, i) => {
-    const exercise = levelExercises(currentModule, currentLevel)[i];
-    if (!exercise) return;
-
-    const state = progress[exercise.id];
-
-    b.classList.toggle("active", i === currentIndex);
-    b.classList.toggle("done", Boolean(state?.completed));
+  const allModuleExercises=modules[currentModule].exercises;
+  $("exerciseNav").querySelectorAll("button").forEach((b,i)=>{
+    const exercise=levelExercises(currentModule,currentLevel)[i];
+    if(!exercise)return;
+    const state=progress[exercise.id];
+    const globalNum=allModuleExercises.indexOf(exercise)+1;
+    b.textContent=`Latihan ${globalNum}${state?.completed?" ✓":""}`;
+    b.classList.toggle("active",i===currentIndex);
+    b.classList.toggle("done",Boolean(state?.completed));
   });
 }
 
-function renderExercise(){
-  const ex=getExercise(), state=progress[ex.id];
-  if(!ex)return;
-  $("exerciseLevelLabel").textContent=`LEVEL ${ex.level} · ${ex.level===1?"DASAR":"PENERAPAN"}`;
-  $("exerciseTitle").textContent=ex.title;
-  $("exercisePrompt").textContent=ex.prompt;
-  $("pointsLabel").textContent=`${state.score} / 10 poin`;
-  $("exerciseFeedback").className="feedback";$("exerciseFeedback").textContent="";
-  $("hintFeedback").className="feedback";$("hintFeedback").textContent="";
-  $("exerciseWork").innerHTML="";
-  $("exerciseActions").innerHTML="";
-  if(ex.type==="choice")renderChoice(ex,state);
-  else if(ex.type==="order")renderOrder(ex,state);
-  else if(ex.type==="sim")renderSimulation(ex,state);
-  const hintBtn=document.createElement("button");
-  hintBtn.className="secondary";hintBtn.textContent=state.hints>=3?"Lihat pembahasan":"Minta petunjuk";
-  hintBtn.addEventListener("click",()=>showHint(ex));
-  $("exerciseActions").appendChild(hintBtn);
-  if(state.completed){
-    const note=document.createElement("span");note.className="muted";note.textContent="Latihan sudah selesai. Kamu tetap boleh mencoba kembali.";
-    $("exerciseActions").appendChild(note);
-  }
-  $("prevExercise").disabled=currentLevel===1&&currentIndex===0;
-  $("nextExercise").textContent=currentIndex===1?(currentLevel===1?"Lanjut ke Level 2 →":"Selesai modul →"):"Latihan berikutnya →";
-  $("nextExercise").disabled=currentIndex===1&&currentLevel===1&&!isLevelUnlocked(currentModule,2);
+/* ===== RENDERING HELPERS ===== */
+function escapeHtml(str){return String(str).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function formatRp(n){return "Rp"+Math.round(n).toLocaleString("id-ID");}
+
+function renderPseudocode(code, highlightLines){
+  const lines=code.split("\n");
+  const hlSet=new Set(Array.isArray(highlightLines)?highlightLines:(highlightLines?[highlightLines]:[]));
+  return `<div class="pseudocode-display">${lines.map((line,i)=>{
+    const n=i+1;
+    return `<span class="code-line${hlSet.has(n)?" highlight":""}"><span class="line-num">${n}</span>${escapeHtml(line)}</span>`;
+  }).join("")}</div>`;
 }
+
+function renderTraceTable(trace){
+  return `<div class="trace-table-wrap"><table class="trace-table">
+    <thead><tr>${trace.headers.map((h,i)=>`<th${i===trace.targetCol?' class="target-col"':''}>${escapeHtml(h)}</th>`).join("")}</tr></thead>
+    <tbody>${trace.rows.map(row=>`<tr>${row.map((cell,i)=>{
+      const isEmpty=cell==="–";
+      const isTarget=i===trace.targetCol;
+      return `<td class="${isTarget?'target-col':''} ${isEmpty?'empty':'filled'}">${escapeHtml(cell)}</td>`;
+    }).join("")}</tr>`).join("")}</tbody>
+  </table></div>`;
+}
+
+function renderFlowTrace(steps){
+  return `<div class="flow-trace">${steps.map(s=>{
+    const indent=`margin-left:${s.depth*22}px`;
+    if(s.type==="condition"){
+      return `<div class="ft-row ft-cond" style="${indent}"><span class="ft-icon">?</span><code>${escapeHtml(s.text)}</code><span class="chip ${s.truth?'true':'false'}">${s.truth?'BENAR':'SALAH'} · ${escapeHtml(s.eval)}</span></div>`;
+    }else if(s.type==="branch"){
+      return `<div class="ft-branch ${s.taken?'taken':'skipped'}" style="${indent}"><span class="ft-arrow">└─</span><span class="chip ${s.taken?'true':'false'}">${escapeHtml(s.label)}</span>${s.taken?'<span class="ft-taken-label">→ dijalankan</span>':'<span class="ft-skipped-label">(dilewati)</span>'}</div>`;
+    }else{
+      return `<div class="ft-row ft-action ${s.taken?'taken':'skipped'}" style="${indent}"><code>${escapeHtml(s.text)}</code>${s.taken?'<span class="chip true">✓ DIJALANKAN</span>':'<span class="muted">(tidak dijalankan)</span>'}</div>`;
+    }
+  }).join("")}</div>`;
+}
+
+function renderConditionEval(conditions){
+  return `<div class="cond-eval">${conditions.map(c=>`
+    <div class="cond-row"><code>${escapeHtml(c.label)}</code><span class="muted">→</span><code>${escapeHtml(c.eval)}</code><span class="chip ${c.truth?'true':'false'}">${c.truth?'BENAR':'SALAH'}</span></div>
+  `).join("")}</div>`;
+}
+
 function renderChoice(ex,state){
+  let visualHtml="";
+  if(ex.pseudocode)visualHtml+=renderPseudocode(ex.pseudocode,ex.highlightLines);
+  if(ex.trace)visualHtml+=renderTraceTable(ex.trace);
+  if(ex.flowTrace)visualHtml+=renderFlowTrace(ex.flowTrace);
+  if(ex.conditions)visualHtml+=renderConditionEval(ex.conditions);
+  if(ex.combinedEval)visualHtml+=`<div class="cond-result ${ex.combinedTruth?'true':'false'}">Gabungan: ${escapeHtml(ex.combinedEval)} = ${ex.combinedTruth?'BENAR':'SALAH'}</div>`;
+
   const wrap=document.createElement("div");
+  if(visualHtml){
+    const visDiv=document.createElement("div");
+    visDiv.innerHTML=visualHtml;
+    wrap.appendChild(visDiv);
+  }
   ex.options.forEach(([value,label])=>{
     const lab=document.createElement("label");lab.className="option";
     const radio=document.createElement("input");radio.type="radio";radio.name="exerciseChoice";radio.value=value;
@@ -524,9 +917,14 @@ function renderChoice(ex,state){
     if(correct){
       const wasCompleted=state.completed;
       state.correct=true;state.completed=true;
-      if(!wasCompleted)state.score=state.attempts===1?ex.firstTry:ex.retry;
-      if(state.attempts===1)state.firstTry=true;
-      showFeedback(`Benar! ${ex.explain} ${state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin karena berhasil setelah mencoba kembali."}`,true);
+      if(!wasCompleted){
+        state.score=state.attempts===1?ex.firstTry:ex.retry;
+        if(state.attempts===1)state.firstTry=true;
+      }
+      const scoreLine = wasCompleted
+        ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan — percobaan ulang memperkuat pemahaman!`
+        : (state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin karena berhasil setelah mencoba kembali.");
+      showFeedback(`Benar! ${ex.explain} ${scoreLine}`,true);
     }else{
       state.correct=false;
       showFeedback("Belum tepat. Kamu bisa mencoba lagi atau membuka petunjuk bertahap.",false);
@@ -536,6 +934,7 @@ function renderChoice(ex,state){
   });
   $("exerciseWork").appendChild(btn);
 }
+
 function renderOrder(ex,state){
   if(!currentOrder[ex.id])currentOrder[ex.id]=shuffle(ex.blocks.map(b=>b.id));
   const list=document.createElement("div");list.className="block-list";list.id="orderBlocks";
@@ -559,17 +958,26 @@ function renderOrder(ex,state){
   const btn=document.createElement("button");btn.className="primary";btn.textContent="Periksa urutan";
   btn.addEventListener("click",()=>{
     state.attempts++;
-    const correct = isOrderCorrect(ex, currentOrder[ex.id]);
-
+    const correct=isOrderCorrect(ex,currentOrder[ex.id]);
     if(correct){
-      const wasCompleted=state.completed;state.correct=true;state.completed=true;
-      if(!wasCompleted)state.score=state.attempts===1?ex.firstTry:ex.retry;
-      if(state.attempts===1)state.firstTry=true;
-      showFeedback(`Susunan benar! ${ex.explain} ${state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin karena berhasil setelah mencoba kembali."}`,true);
+      const wasCompleted=state.completed;
+      state.correct=true;state.completed=true;
+      if(!wasCompleted){
+        state.score=state.attempts===1?ex.firstTry:ex.retry;
+        if(state.attempts===1)state.firstTry=true;
+      }
+      const scoreLine = wasCompleted
+        ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan — percobaan ulang memperkuat pemahaman!`
+        : (state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin karena berhasil setelah mencoba kembali.");
+      showFeedback(`Susunan benar! ${ex.explain} ${scoreLine}`,true);
     }else{
       state.correct=false;
       if(ex.id==="seq3"){
-        showFeedback("Urutan belum tepat. Pastikan jumlahMurid dan headsetPerMurid sudah ditetapkan sebelum kebutuhan dihitung; headset tersedia sudah diketahui sebelum sisa dihitung; kebutuhan dan sisa ditampilkan paling akhir. Urutan tiga data awal boleh berbeda selama syarat tersebut terpenuhi.",false);
+        showFeedback("Urutan belum tepat. Pastikan jumlahMurid dan headsetPerMurid sudah ditetapkan sebelum kebutuhan dihitung; headset tersedia sudah diketahui sebelum sisa dihitung; kebutuhan dan sisa ditampilkan paling akhir.",false);
+      }else if(ex.id==="seq8"){
+        showFeedback("Urutan belum tepat. Pastikan harga dan jumlah ditetapkan sebelum subtotal dihitung; diskon dan subtotal diketahui sebelum total; dan total ditampilkan paling akhir.",false);
+      }else if(ex.id==="if7"){
+        showFeedback("Urutan belum tepat. Pastikan total dan diskon awal sudah ditetapkan sebelum percabangan. Periksa diskon 10% dahulu, lalu diskon 20%, dan tampilkan hasil di akhir. Kedua AKHIR JIKA boleh ditukar posisinya.",false);
       }else{
         showFeedback("Urutan belum tepat. Periksa hubungan antara data, proses, dan output, lalu coba lagi.",false);
       }
@@ -580,6 +988,7 @@ function renderOrder(ex,state){
   mix.addEventListener("click",()=>{currentOrder[ex.id]=shuffle(ex.blocks.map(b=>b.id));draw();});
   $("exerciseWork").append(btn,mix);
 }
+
 function renderSimulation(ex,state){
   const box=document.createElement("div");
   box.innerHTML=`<div class="field-grid">
@@ -590,83 +999,539 @@ function renderSimulation(ex,state){
   <div class="sim-output" id="headsetOutput" aria-live="polite">Ubah input, lalu jalankan simulasi untuk melihat proses dan output.</div>
   <p class="muted">Setiap murid membutuhkan satu headset. Jika hasil sisa negatif, berarti headset kurang.</p>`;
   $("exerciseWork").appendChild(box);
-  let ran = false;
-  let lastStudents = null;
-  let lastStock = null;
+  let ran=false,lastStudents=null,lastStock=null;
   $("runHeadsetSim").addEventListener("click",()=>{
     const students=Number($("simStudents").value),stock=Number($("simHeadsets").value),out=$("headsetOutput");
     if($("simStudents").value===""||$("simHeadsets").value===""||!Number.isInteger(students)||!Number.isInteger(stock)||students<1||students>30||stock<0||stock>30){
       out.textContent="Masukkan jumlah murid 1–30 dan headset tersedia 0–30.";out.style.color="var(--bad)";ran=false;return;
     }
-    const need = students;
-    const remain = stock - need;
-
-    ran = true;
-    lastStudents = students;
-    lastStock = stock;
-
-    out.style.color = "var(--ink)";
+    const need=students,remain=stock-need;
+    ran=true;lastStudents=students;lastStock=stock;
+    out.style.color="var(--ink)";
     out.innerHTML=`<div class="small-label">Proses</div><pre>kebutuhan ← ${students} × 1 = ${need}\nsisa ← ${stock} − ${need} = ${remain}</pre><b>${remain>=0?`Sisa headset: ${remain}`:`Kekurangan headset: ${Math.abs(remain)}`}</b>`;
   });
   $("checkSimResult").addEventListener("click",()=>{
-    if (!ran) {
-      showFeedback(
-        "Jalankan simulasi terlebih dahulu agar input dan output dapat diperiksa.",
-        false
-      );
-      return;
+    if(!ran){showFeedback("Jalankan simulasi terlebih dahulu agar input dan output dapat diperiksa.",false);return;}
+    const students=Number($("simStudents").value),stock=Number($("simHeadsets").value);
+    if($("simStudents").value===""||$("simHeadsets").value===""||!Number.isInteger(students)||!Number.isInteger(stock)||students<1||students>30||stock<0||stock>30){
+      showFeedback("Input tidak valid. Masukkan jumlah murid 1–30 dan headset tersedia 0–30.",false);return;
     }
-
-    const students = Number($("simStudents").value);
-    const stock = Number($("simHeadsets").value);
-
-    if (
-      $("simStudents").value === "" ||
-      $("simHeadsets").value === "" ||
-      !Number.isInteger(students) ||
-      !Number.isInteger(stock) ||
-      students < 1 ||
-      students > 30 ||
-      stock < 0 ||
-      stock > 30
-    ) {
-      showFeedback(
-        "Input tidak valid. Masukkan jumlah murid 1–30 dan headset tersedia 0–30.",
-        false
-      );
-      return;
-    }
-
-    if (students !== lastStudents || stock !== lastStock) {
-      ran = false;
-      showFeedback(
-        "Input berubah setelah simulasi dijalankan. Jalankan simulasi kembali sebelum memeriksa hasil.",
-        false
-      );
-      return;
-    }
-
+    if(students!==lastStudents||stock!==lastStock){ran=false;showFeedback("Input berubah setelah simulasi dijalankan. Jalankan simulasi kembali sebelum memeriksa hasil.",false);return;}
     state.attempts++;
-    const wasCompleted=state.completed;state.completed=true;state.correct=true;
-    if(!wasCompleted)state.score=state.attempts===1?ex.firstTry:ex.retry;
-    if(state.attempts===1)state.firstTry=true;
-    showFeedback(`Simulasi berhasil dijalankan. Kamu telah menguji input ${students} murid dan ${stock} headset. ${ex.explain} ${state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin."}`,true);
+    const wasCompleted=state.completed;
+    state.completed=true;state.correct=true;
+    if(!wasCompleted){
+      state.score=state.attempts===1?ex.firstTry:ex.retry;
+      if(state.attempts===1)state.firstTry=true;
+    }
+    const scoreLine = wasCompleted
+      ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan.`
+      : (state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin.");
+    showFeedback(`Simulasi berhasil! ${ex.explain} ${scoreLine}`,true);
     $("pointsLabel").textContent=`${state.score} / 10 poin`;refreshLevelAccess();renderModuleNavOnly();updateHome();
   });
 }
-function isOrderCorrect(ex, order) {
-  if (ex.id === "seq3") {
-    const pos = Object.fromEntries(order.map((id, index) => [id, index]));
-    return (
-      pos.students < pos.need &&
-      pos.per < pos.need &&
-      pos.stock < pos.remain &&
-      pos.need < pos.remain &&
-      pos.remain < pos.show
-    );
-  }
-  return order.every((id, index) => id === ex.answer[index]);
+
+function renderSimulation2(ex,state){
+  if(ex.id==="seq9")renderTaxSimulation(ex,state);
+  else if(ex.id==="if8")renderTicketSimulation(ex,state);
 }
+
+function renderTaxSimulation(ex,state){
+  const box=document.createElement("div");
+  box.innerHTML=`<div class="field-grid">
+    <div class="field"><label for="simHarga">Harga per buku (Rp)</label><input id="simHarga" type="number" min="1000" max="100000" step="1000" value="15000"></div>
+    <div class="field"><label for="simJumlahBuku">Jumlah buku</label><input id="simJumlahBuku" type="number" min="1" max="20" value="3"></div>
+    <div class="field" style="grid-column:1/-1"><label for="simPPN">PPN (%)</label><input id="simPPN" type="number" min="0" max="50" step="1" value="11"></div>
+  </div>
+  <div class="actions"><button class="primary" id="runTaxSim">Jalankan simulasi</button><button class="secondary" id="checkTaxSim">Periksa hasil simulasi</button></div>
+  <div class="sim-output" id="taxOutput" aria-live="polite">Ubah input, lalu jalankan simulasi untuk melihat rincian perhitungan.</div>`;
+  $("exerciseWork").appendChild(box);
+  let ran=false,lastKey=null;
+  $("runTaxSim").addEventListener("click",()=>{
+    const harga=Number($("simHarga").value),jumlah=Number($("simJumlahBuku").value),ppn=Number($("simPPN").value);
+    const out=$("taxOutput");
+    if($("simHarga").value===""||$("simJumlahBuku").value===""||$("simPPN").value===""||!Number.isInteger(harga)||!Number.isInteger(jumlah)||!Number.isInteger(ppn)||harga<1000||harga>100000||jumlah<1||jumlah>20||ppn<0||ppn>50){
+      out.innerHTML='<span style="color:var(--bad)">Input tidak valid. Periksa kembali nilai yang dimasukkan.</span>';ran=false;return;
+    }
+    const subtotal=harga*jumlah,pajak=subtotal*ppn/100,total=subtotal+pajak;
+    ran=true;lastKey=`${harga}|${jumlah}|${ppn}`;
+    out.innerHTML=`<div class="small-label">Proses</div>
+      <pre>subtotal ← ${formatRp(harga)} × ${jumlah} = ${formatRp(subtotal)}
+pajak ← ${formatRp(subtotal)} × ${ppn}/100 = ${formatRp(pajak)}
+total ← ${formatRp(subtotal)} + ${formatRp(pajak)} = ${formatRp(total)}</pre>
+      <div class="sim-card-grid">
+        <div class="sim-card"><span class="small-label">Subtotal</span><strong>${formatRp(subtotal)}</strong></div>
+        <div class="sim-card"><span class="small-label">PPN ${ppn}%</span><strong>${formatRp(pajak)}</strong></div>
+        <div class="sim-card total"><span class="small-label">Total</span><strong>${formatRp(total)}</strong></div>
+      </div>`;
+  });
+  $("checkTaxSim").addEventListener("click",()=>{
+    if(!ran){showFeedback("Jalankan simulasi terlebih dahulu agar hasil dapat diperiksa.",false);return;}
+    const harga=Number($("simHarga").value),jumlah=Number($("simJumlahBuku").value),ppn=Number($("simPPN").value);
+    const key=`${harga}|${jumlah}|${ppn}`;
+    if(key!==lastKey){ran=false;showFeedback("Input berubah. Jalankan simulasi kembali sebelum memeriksa.",false);return;}
+    state.attempts++;
+    const wasCompleted=state.completed;
+    state.completed=true;state.correct=true;
+    if(!wasCompleted){
+      state.score=state.attempts===1?ex.firstTry:ex.retry;
+      if(state.attempts===1)state.firstTry=true;
+    }
+    const scoreLine = wasCompleted
+      ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan.`
+      : (state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin.");
+    showFeedback(`Simulasi berhasil! Kamu telah menghitung subtotal, PPN, dan total dengan benar. ${ex.explain} ${scoreLine}`,true);
+    $("pointsLabel").textContent=`${state.score} / 10 poin`;
+    refreshLevelAccess();renderModuleNavOnly();updateHome();
+  });
+}
+
+function renderTicketSimulation(ex,state){
+  const box=document.createElement("div");
+  box.innerHTML=`<div class="field-grid">
+    <div class="field" style="grid-column:1/-1"><label for="simUmur">Umur penonton</label><input id="simUmur" type="number" min="1" max="100" value="15"></div>
+  </div>
+  <div class="actions"><button class="primary" id="runTicketSim">Jalankan simulasi</button><button class="secondary" id="checkTicketSim" disabled>Periksa hasil simulasi</button></div>
+  <div class="sim-output" id="ticketOutput" aria-live="polite">Masukkan umur, lalu jalankan simulasi untuk melihat kategori dan harga tiket.</div>
+  <p class="muted">Aturan: &lt; 12 tahun → Rp25.000 · 12–17 tahun → Rp35.000 · ≥ 18 tahun → Rp50.000</p>`;
+  $("exerciseWork").appendChild(box);
+  $("checkTicketSim").disabled = true;
+  let ran=false,lastUmur=null;
+  $("runTicketSim").addEventListener("click",()=>{
+    const umur=Number($("simUmur").value);
+    const out=$("ticketOutput");
+    if($("simUmur").value===""||!Number.isInteger(umur)||umur<1||umur>100){
+      out.innerHTML='<span style="color:var(--bad)">Masukkan umur 1–100.</span>';ran=false;$("checkTicketSim").disabled = true;return;
+    }
+    let kategori,harga,conditions;
+    if(umur<12){kategori="Anak";harga=25000;conditions=[{label:"umur < 12",eval:`${umur} < 12`,truth:true},{label:"12 ≤ umur < 18",eval:`${umur} dalam rentang`,truth:false},{label:"umur ≥ 18",eval:`${umur} ≥ 18`,truth:false}];}
+    else if(umur<18){kategori="Remaja";harga=35000;conditions=[{label:"umur < 12",eval:`${umur} < 12`,truth:false},{label:"12 ≤ umur < 18",eval:`12 ≤ ${umur} < 18`,truth:true},{label:"umur ≥ 18",eval:`${umur} ≥ 18`,truth:false}];}
+    else{kategori="Dewasa";harga=50000;conditions=[{label:"umur < 12",eval:`${umur} < 12`,truth:false},{label:"12 ≤ umur < 18",eval:`${umur} dalam rentang`,truth:false},{label:"umur ≥ 18",eval:`${umur} ≥ 18`,truth:true}];}
+    ran=true;lastUmur=umur;$("checkTicketSim").disabled = false;
+    const pathHtml=conditions.map(c=>`<div class="branch-step ${c.truth?'pass':'fail'}"><code>${escapeHtml(c.label)}</code><span class="muted">→</span><span>${escapeHtml(c.eval)}</span><span class="chip ${c.truth?'true':'false'}">${c.truth?'BENAR':'SALAH'}</span></div>`).join("");
+    out.innerHTML=`<div class="small-label">Evaluasi kondisi</div>
+      <div class="branch-path">${pathHtml}</div>
+      <div class="sim-card-grid" style="grid-template-columns:1fr 1fr">
+        <div class="sim-card"><span class="small-label">Kategori</span><strong>${kategori}</strong></div>
+        <div class="sim-card total"><span class="small-label">Harga Tiket</span><strong>${formatRp(harga)}</strong></div>
+      </div>`;
+  });
+  $("checkTicketSim").addEventListener("click",()=>{
+    if(!ran){showFeedback("Jalankan simulasi terlebih dahulu.",false);return;}
+    const umur=Number($("simUmur").value);
+    if(umur!==lastUmur){ran=false;showFeedback("Input berubah. Jalankan simulasi kembali sebelum memeriksa.",false);return;}
+    state.attempts++;
+    const wasCompleted=state.completed;
+    state.completed=true;state.correct=true;
+    if(!wasCompleted){
+      state.score=state.attempts===1?ex.firstTry:ex.retry;
+      if(state.attempts===1)state.firstTry=true;
+    }
+    const scoreLine = wasCompleted
+      ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan.`
+      : (state.score===10?"Kamu memperoleh 10 poin.":"Kamu memperoleh 5 poin.");
+    showFeedback(`Simulasi berhasil! Kamu telah menentukan kategori dan harga tiket dengan benar. ${ex.explain} ${scoreLine}`,true);
+    $("pointsLabel").textContent=`${state.score} / 10 poin`;
+    refreshLevelAccess();renderModuleNavOnly();updateHome();
+  });
+}
+
+/* === SWAP-BOX EXERCISE === */
+function renderSwapBox(ex,state){
+  const wrap=document.createElement("div");
+  wrap.className="swap-container";
+  wrap.innerHTML=`
+    <div class="swap-goal">
+      <span class="swap-goal-label">🎯 Tujuan:</span>
+      ${Object.entries(ex.goal).map(([box,item])=>`<span class="swap-goal-item">${box}: ${item?`${ex.itemEmoji[item]||"📦"} ${item}`:"kosong"}</span>`).join("")}
+    </div>
+    <div class="swap-board" id="swapBoard"></div>
+    <div class="swap-ops">
+      <span class="swap-ops-label">Instruksi (klik untuk menjalankan):</span>
+      <div class="swap-op-buttons" id="swapOpButtons"></div>
+    </div>
+    <div class="swap-history">
+      <span class="swap-history-label">Riwayat langkah:</span>
+      <ol class="swap-history-list" id="swapHistoryList"><li class="muted">Belum ada langkah dijalankan.</li></ol>
+    </div>
+    <div class="actions" style="margin-top:14px"><button class="secondary" id="swapResetBtn">↺ Reset kardus</button></div>
+  `;
+  $("exerciseWork").appendChild(wrap);
+  
+  let currentState={...ex.initial};
+  let history=[];
+  let busy=false;
+  
+  const ops=[];
+  for(const dest of ex.boxes){
+    for(const src of ex.boxes){
+      if(src===dest)continue;
+      ops.push({dest,src,label:`${dest} ← ${src}`});
+    }
+  }
+  
+  function isOpValid(dest,src){
+    return currentState[src]!=="" && currentState[dest]==="";
+  }
+  
+  function renderBoard(highlightSrc,highlightDst){
+    const board=$("swapBoard");
+    board.innerHTML="";
+    ex.boxes.forEach(boxId=>{
+      const content=currentState[boxId];
+      const isEmpty=!content;
+      const div=document.createElement("div");
+      div.className="swap-box"+(isEmpty?" empty":"");
+      if(highlightSrc===boxId)div.classList.add("source");
+      if(highlightDst===boxId)div.classList.add("target");
+      div.dataset.box=boxId;
+      div.innerHTML=`
+        <div class="swap-box-label">${ex.boxLabels[boxId]}</div>
+        <div class="swap-box-content">${isEmpty?'<span style="opacity:.25">—</span>':(ex.itemEmoji[content]||"📦")}</div>
+        <div class="swap-box-name">${isEmpty?"(kosong)":escapeHtml(content)}</div>
+      `;
+      board.appendChild(div);
+    });
+  }
+  
+  function renderOps(){
+    const container=$("swapOpButtons");
+    container.innerHTML="";
+    ops.forEach(op=>{
+      const btn=document.createElement("button");
+      btn.textContent=op.label;
+      const valid=isOpValid(op.dest,op.src);
+      if(!valid){
+        btn.classList.add("invalid");
+        if(currentState[op.src]==="")btn.title="Kardus sumber kosong";
+        else btn.title="Kardus tujuan masih berisi";
+      }
+      btn.addEventListener("click",()=>executeOp(op));
+      container.appendChild(btn);
+    });
+  }
+  
+  function renderHistory(){
+    const list=$("swapHistoryList");
+    if(history.length===0){list.innerHTML='<li class="muted">Belum ada langkah dijalankan.</li>';return;}
+    list.innerHTML=history.map((h,i)=>`<li>${i+1}. <code>${escapeHtml(h.op)}</code> — pindahkan "${escapeHtml(h.content)}" dari ${h.src} ke ${h.dest}</li>`).join("");
+  }
+  
+  function checkGoal(){
+    const achieved=Object.entries(ex.goal).every(([box,item])=>currentState[box]===item);
+    if(achieved){
+      const wasCompleted=state.completed;
+      const optimal=history.length<=ex.minSteps;
+      if(!wasCompleted){
+        state.completed=true;state.correct=true;
+        state.score=optimal?ex.firstTry:ex.retry;
+        state.firstTry=optimal;
+      }
+      const msg = wasCompleted
+        ? `✅ Tujuan tercapai lagi dengan ${history.length} langkah. Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan. Percobaan ulang memperkuat pemahamanmu!`
+        : (optimal
+            ? `🎉 Tujuan tercapai dengan ${history.length} langkah (optimal)! ${ex.explain} Kamu memperoleh 10 poin.`
+            : `🎉 Tujuan tercapai dengan ${history.length} langkah. ${ex.explain} Kamu memperoleh 5 poin karena melebihi langkah minimum (${ex.minSteps} langkah).`);
+      showFeedback(msg,true);
+      $("pointsLabel").textContent=`${state.score} / 10 poin`;
+      refreshLevelAccess();renderModuleNavOnly();updateHome();
+    }
+  }
+  
+  function executeOp(op){
+    if(busy)return;
+    const {dest,src}=op;
+    const srcContent=currentState[src];
+    if(!srcContent){showFeedback(`Kardus ${src} kosong — tidak ada isi untuk dipindahkan.`,false);return;}
+    if(currentState[dest]!==""){showFeedback(`Kardus ${dest} masih berisi "${currentState[dest]}". Kosongkan dulu sebelum diisi.`,false);return;}
+    busy=true;renderBoard(src,dest);
+    setTimeout(()=>{
+      currentState[dest]=currentState[src];currentState[src]="";
+      history.push({op:op.label,dest,src,content:srcContent});
+      renderBoard();renderOps();renderHistory();checkGoal();busy=false;
+    },450);
+  }
+  
+  function resetBoard(){
+    currentState={...ex.initial};history=[];
+    renderBoard();renderOps();renderHistory();
+    showFeedback("Kardus direset ke kondisi awal.",true);
+  }
+  
+  $("swapResetBtn").addEventListener("click",resetBoard);
+  renderBoard();renderOps();renderHistory();
+}
+
+/* === GATE EXERCISE === */
+function renderGate(ex,state){
+  const cfg=ex.gate;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div class="field-grid">
+      ${cfg.inputs.map(inp=>`<div class="field"><label for="gate_${inp.id}">${inp.label}</label><input id="gate_${inp.id}" type="number" min="${inp.min}" max="${inp.max}" value="${inp.default}"></div>`).join("")}
+    </div>
+    <div class="actions"><button class="primary" id="runGate">🚧 Coba Masuk Gerbang</button></div>
+    <div class="gate-scene" id="gateScene">
+      <div class="gate-ground"></div>
+      <div class="gate-person" id="gatePerson">🏃</div>
+      <div class="gate-finish">🎢</div>
+      <div class="gate-structure">
+        <div class="gate-post left"></div>
+        <div class="gate-post right"></div>
+        <div class="gate-topbar"></div>
+        <div class="gate-barrier"></div>
+      </div>
+    </div>
+    <div class="gate-conditions" id="gateConditions"><p class="muted">Atur input, lalu klik "Coba Masuk Gerbang".</p></div>
+    <div class="gate-history" id="gateHistory"></div>
+  `;
+  $("exerciseWork").appendChild(wrap);
+  
+  let trials=[];
+  
+  function evalConditions(input){
+    return cfg.conditions.map(c=>({label:c.label,passed:c.test(input[c.field])}));
+  }
+  
+  function renderConditions(conds){
+    const allPass=conds.every(c=>c.passed);
+    $("gateConditions").innerHTML=`
+      <div class="small-label">Evaluasi kondisi:</div>
+      ${conds.map(c=>`<div class="cond-row"><code>${escapeHtml(c.label)}</code><span class="chip ${c.passed?'true':'false'}">${c.passed?'✓ BENAR':'✗ SALAH'}</span></div>`).join("")}
+      <div class="cond-result ${allPass?'true':'false'}">${conds.map(c=>c.passed?"BENAR":"SALAH").join(" DAN ")} = ${allPass?"BENAR → Gerbang terbuka":"SALAH → Gerbang tertutup"}</div>
+    `;
+    return allPass;
+  }
+  
+  function renderHistory(){
+    if(trials.length===0){$("gateHistory").innerHTML="";return;}
+    const hasPass=trials.some(t=>t.passed);
+    const hasFail=trials.some(t=>!t.passed);
+    $("gateHistory").innerHTML=`
+      <div class="small-label" style="margin-top:14px">Riwayat percobaan (${trials.length}):</div>
+      <div class="gate-hist">
+        ${trials.map((t,i)=>`<div class="gate-hist-row ${t.passed?'pass':'fail'}"><span class="gate-hist-num">${i+1}</span><span>${Object.entries(t.input).map(([k,v])=>`${k}=${v}`).join(", ")}</span><span class="chip ${t.passed?'true':'false'}">${t.passed?'✅ Lolos':'❌ Ditolak'}</span></div>`).join("")}
+      </div>
+      ${!(hasPass&&hasFail)?`<p class="muted" style="margin-top:8px">💡 Coba minimal 1 skenario yang lolos dan 1 yang ditolak untuk melanjutkan.</p>`:`<p style="margin-top:8px;color:var(--good);font-weight:700">✅ Kamu sudah membuktikan gerbang menolak saat satu kondisi salah, dan membuka saat keduanya benar.</p>`}
+    `;
+  }
+  
+  $("runGate").addEventListener("click",()=>{
+    const input={};
+    for(const inp of cfg.inputs){
+      const val=$("gate_"+inp.id).value;
+      if(val===""){showFeedback("Lengkapi semua input terlebih dahulu.",false);return;}
+      const num=Number(val);
+      if(!Number.isInteger(num)||num<inp.min||num>inp.max){
+        showFeedback(`Input ${inp.label} harus antara ${inp.min}–${inp.max}.`,false);return;
+      }
+      input[inp.id]=num;
+    }
+    
+    const conds=evalConditions(input);
+    const passed=renderConditions(conds);
+    trials.push({input,passed});
+    renderHistory();
+    
+    const scene=$("gateScene");
+    scene.classList.remove("pass","fail","open");
+    void scene.offsetWidth;
+    setTimeout(()=>{
+      if(passed)scene.classList.add("open","pass");
+      else scene.classList.add("fail");
+    },30);
+    
+    const hasPass=trials.some(t=>t.passed);
+    const hasFail=trials.some(t=>!t.passed);
+    if(hasPass&&hasFail){
+      const wasCompleted=state.completed;
+      const optimal=trials.length<=cfg.minTrials;
+      if(!wasCompleted){
+        state.completed=true;state.correct=true;
+        state.attempts=trials.length;
+        state.score=optimal?ex.firstTry:ex.retry;
+        state.firstTry=optimal;
+      }
+      setTimeout(()=>{
+        const scoreLine = wasCompleted
+          ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan. Percobaan ulang memperkuat pemahamanmu!`
+          : (optimal?"Kamu memperoleh 10 poin (optimal).":"Kamu memperoleh 5 poin.");
+        showFeedback(`🎉 Berhasil! Kamu menunjukkan bahwa gerbang hanya terbuka saat SEMUA kondisi benar. ${ex.explain} ${scoreLine}`,true);
+        $("pointsLabel").textContent=`${state.score} / 10 poin`;
+        refreshLevelAccess();renderModuleNavOnly();updateHome();
+      },1600);
+    }
+  });
+}
+
+/* === QUEUE EXERCISE === */
+function renderQueue(ex,state){
+  const cfg=ex.queue;
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`
+    <div class="field-grid">
+      ${cfg.inputs.map(inp=>{
+        if(inp.type==="select"){
+          return `<div class="field"><label for="queue_${inp.id}">${inp.label}</label><select id="queue_${inp.id}">${inp.options.map(o=>`<option value="${o.value}" ${o.value===inp.default?'selected':''}>${o.label}</option>`).join("")}</select></div>`;
+        }
+        return `<div class="field"><label for="queue_${inp.id}">${inp.label}</label><input id="queue_${inp.id}" type="number" min="${inp.min}" max="${inp.max}" value="${inp.default}"></div>`;
+      }).join("")}
+    </div>
+    <div class="actions"><button class="primary" id="runQueue">🚶 Proses Antrean</button></div>
+    <div class="queue-scene" id="queueScene">
+      <div class="queue-entrance">
+        <div class="queue-person">🚶</div>
+        <div class="queue-arrow">→</div>
+      </div>
+      <div class="queue-lanes">
+        ${cfg.lanes.map(l=>`<div class="queue-lane" data-lane="${l.id}"><div class="queue-lane-label">${l.label}</div><div class="queue-lane-rule">${l.rule}</div></div>`).join("")}
+      </div>
+    </div>
+    <div class="queue-route" id="queueRoute"></div>
+    <div class="queue-history" id="queueHistory"></div>
+  `;
+  $("exerciseWork").appendChild(wrap);
+  
+  let trials=[];
+  
+  function renderHistory(){
+    if(trials.length===0){$("queueHistory").innerHTML="";return;}
+    const visited=new Set(trials.map(t=>t.lane));
+    const allVisited=cfg.lanes.every(l=>visited.has(l.id));
+    $("queueHistory").innerHTML=`
+      <div class="small-label" style="margin-top:14px">Riwayat (${trials.length}):</div>
+      <div class="gate-hist">
+        ${trials.map((t,i)=>`<div class="gate-hist-row"><span class="gate-hist-num">${i+1}</span><span>member=${t.input.member}, umur=${t.input.umur}</span><span class="chip true">→ ${t.lane}</span></div>`).join("")}
+      </div>
+      <p class="muted" style="margin-top:8px">Kunjungan jalur: ${cfg.lanes.map(l=>`${l.id} ${visited.has(l.id)?'✅':'⬜'}`).join(" · ")}</p>
+      ${!allVisited?'<p class="muted">💡 Kunjungi ketiga jalur (VIP, Premium, Ekonomi) minimal sekali.</p>':'<p style="color:var(--good);font-weight:700">✅ Semua jalur sudah dikunjungi!</p>'}
+    `;
+  }
+  
+  $("runQueue").addEventListener("click",()=>{
+    const input={};
+    for(const inp of cfg.inputs){
+      const el=$("queue_"+inp.id);
+      if(el.value===""){showFeedback("Lengkapi semua input terlebih dahulu.",false);return;}
+      if(inp.type==="select"){
+        input[inp.id]=el.value;
+      }else{
+        const num=Number(el.value);
+        if(!Number.isInteger(num)||num<inp.min||num>inp.max){
+          showFeedback(`Input ${inp.label} harus antara ${inp.min}–${inp.max}.`,false);return;
+        }
+        input[inp.id]=num;
+      }
+    }
+    
+    const lane=cfg.route(input);
+    trials.push({input,lane});
+    
+    const steps=[];
+    if(input.member==="ya" && input.umur>=18){
+      steps.push({label:"member DAN umur ≥ 18",passed:true,lane:"VIP"});
+    }else{
+      steps.push({label:"member DAN umur ≥ 18",passed:false});
+      if(input.member==="ya" || input.umur>=18){
+        steps.push({label:"member ATAU umur ≥ 18",passed:true,lane:"Premium"});
+      }else{
+        steps.push({label:"member ATAU umur ≥ 18",passed:false});
+        steps.push({label:"Selain itu",passed:true,lane:"Ekonomi"});
+      }
+    }
+    
+    $("queueRoute").innerHTML=`
+      <div class="small-label">Penelusuran percabangan:</div>
+      <div class="branch-path">
+        ${steps.map(s=>`<div class="branch-step ${s.passed?'pass':'fail'}"><code>${escapeHtml(s.label)}</code><span class="chip ${s.passed?'true':'false'}">${s.passed?'BENAR':'SALAH'}</span>${s.lane?`<strong style="margin-left:auto">→ ${s.lane}</strong>`:''}</div>`).join("")}
+      </div>
+    `;
+    
+    wrap.querySelectorAll(".queue-lane").forEach(l=>l.classList.remove("active-lane"));
+    const laneEl=wrap.querySelector(`[data-lane="${lane}"]`);
+    setTimeout(()=>laneEl.classList.add("active-lane"),30);
+    
+    renderHistory();
+    
+    const visited=new Set(trials.map(t=>t.lane));
+    const allVisited=cfg.lanes.every(l=>visited.has(l.id));
+    if(allVisited){
+      const wasCompleted=state.completed;
+      const optimal=trials.length<=cfg.minTrials;
+      if(!wasCompleted){
+        state.completed=true;state.correct=true;
+        state.attempts=trials.length;
+        state.score=optimal?ex.firstTry:ex.retry;
+        state.firstTry=optimal;
+      }
+      setTimeout(()=>{
+        const scoreLine = wasCompleted
+          ? `Skor tetap ${state.score}/10 karena latihan ini sudah pernah diselesaikan. Percobaan ulang memperkuat pemahamanmu!`
+          : (optimal?"Kamu memperoleh 10 poin (optimal).":"Kamu memperoleh 5 poin.");
+        showFeedback(`🎉 Hebat! Kamu sudah mengunjungi ketiga jalur dengan benar. ${ex.explain} ${scoreLine}`,true);
+        $("pointsLabel").textContent=`${state.score} / 10 poin`;
+        refreshLevelAccess();renderModuleNavOnly();updateHome();
+      },900);
+    }
+  });
+}
+
+function renderExercise(){
+  const ex=getExercise(),state=progress[ex.id];
+  if(!ex)return;
+  $("exerciseLevelLabel").textContent=`LEVEL ${ex.level} · ${{1:"DASAR",2:"PENERAPAN",3:"ANALISIS",4:"EVALUASI"}[ex.level]}`;
+  $("exerciseTitle").textContent=ex.title;
+  $("exercisePrompt").textContent=ex.prompt;
+  $("pointsLabel").textContent=`${state.score} / 10 poin`;
+  $("exerciseFeedback").className="feedback";$("exerciseFeedback").textContent="";
+  $("hintFeedback").className="feedback";$("hintFeedback").textContent="";
+  $("exerciseWork").innerHTML="";
+  $("exerciseActions").innerHTML="";
+  if(ex.type==="choice")renderChoice(ex,state);
+  else if(ex.type==="order")renderOrder(ex,state);
+  else if(ex.type==="sim")renderSimulation(ex,state);
+  else if(ex.type==="sim2")renderSimulation2(ex,state);
+  else if(ex.type==="swapbox")renderSwapBox(ex,state);
+  else if(ex.type==="gate")renderGate(ex,state);
+  else if(ex.type==="queue")renderQueue(ex,state);
+  const hintBtn=document.createElement("button");
+  hintBtn.className="secondary";hintBtn.textContent=state.hints>=3?"Lihat pembahasan":"Minta petunjuk";
+  hintBtn.addEventListener("click",()=>showHint(ex));
+  $("exerciseActions").appendChild(hintBtn);
+  if(state.completed){
+    const replayBtn=document.createElement("button");
+    replayBtn.className="outline";
+    replayBtn.textContent="🔄 Latihan ulang (skor tetap)";
+    replayBtn.title="Coba kembali latihan ini tanpa mengubah skor. Cocok untuk memperkuat pemahaman.";
+    replayBtn.addEventListener("click",()=>{
+      delete currentOrder[ex.id];
+      state.selected=null;
+      renderExercise();
+    });
+    $("exerciseActions").appendChild(replayBtn);
+  }
+  $("prevExercise").disabled=currentLevel===1&&currentIndex===0;
+  refreshLevelAccess();
+}
+
+function isOrderCorrect(ex,order){
+  if(ex.id==="seq3"){
+    const pos=Object.fromEntries(order.map((id,index)=>[id,index]));
+    return pos.students<pos.need&&pos.per<pos.need&&pos.stock<pos.remain&&pos.need<pos.remain&&pos.remain<pos.show;
+  }
+  if(ex.id==="seq8"){
+    const pos=Object.fromEntries(order.map((id,index)=>[id,index]));
+    return pos.harga<pos.subtotal&&pos.jumlah<pos.subtotal&&pos.diskon<pos.total&&pos.subtotal<pos.total&&pos.total<pos.show;
+  }
+  if(ex.id==="if7"){
+    const pos=Object.fromEntries(order.map((id,index)=>[id,index]));
+    const ends=[pos.end1,pos.end2].sort((a,b)=>a-b);
+    return pos.total<pos.if1&&pos.init<pos.if1&&pos.if1<pos.d1&&pos.d1<ends[0]&&ends[0]<pos.if2&&pos.if2<pos.d2&&pos.d2<ends[1]&&ends[1]<pos.show;
+  }
+  return order.every((id,index)=>id===ex.answer[index]);
+}
+
 function showFeedback(message,good){
   const box=$("exerciseFeedback");box.className=`feedback show ${good?"good":"bad"}`;box.textContent=message;
 }
@@ -682,45 +1547,229 @@ function shuffle(arr){
   return arr;
 }
 function changeLevel(level){
+  if(level<1||level>MAX_LEVEL)return;
   if(!isLevelUnlocked(currentModule,level))return;
   currentLevel=level;currentIndex=0;renderModule();
 }
 function nextExercise(){
-  if(currentIndex===0){currentIndex=1;renderModule();}
-  else if(currentLevel===1&&isLevelUnlocked(currentModule,2)){changeLevel(2);}
-  else if(currentLevel===2){
-    showResults();
-  }
+  const exercises=levelExercises(currentModule,currentLevel);
+  if(currentIndex<exercises.length-1){currentIndex++;renderModule();}
+  else if(currentLevel<MAX_LEVEL){if(isLevelUnlocked(currentModule,currentLevel+1))changeLevel(currentLevel+1);}
+  else{showResults();}
 }
 function previousExercise(){
-  if(currentIndex===1){currentIndex=0;renderModule();}
-  else if(currentLevel===2){changeLevel(1);currentIndex=1;renderModule();}
+  if(currentIndex>0){currentIndex--;renderModule();}
+  else if(currentLevel>1){
+    currentLevel--;
+    const prevExercises=levelExercises(currentModule,currentLevel);
+    currentIndex=prevExercises.length-1;
+    renderModule();
+  }
 }
+
+/* === ADAPTIVE RECOMMENDATIONS ENGINE === */
+function buildRecommendations(){
+  const all=allExercises();
+  const done=all.filter(e=>progress[e.id].completed);
+  const retried=all.filter(e=>progress[e.id].completed&&!progress[e.id].firstTry);
+  const firstTry=all.filter(e=>progress[e.id].firstTry);
+
+  const groups=[];
+  for(const [modKey,mod] of Object.entries(modules)){
+    for(let lvl=1;lvl<=MAX_LEVEL;lvl++){
+      const exs=mod.exercises.filter(e=>e.level===lvl);
+      if(exs.length===0)continue;
+      const completed=exs.filter(e=>progress[e.id].completed).length;
+      const total=exs.length;
+      const moduleName=modKey==="seq"?"Modul Sekuensial":"Modul Percabangan";
+      const levelName={1:"Dasar",2:"Penerapan",3:"Analisis",4:"Evaluasi"}[lvl];
+      let status;
+      if(completed===total)status="mastered";
+      else if(completed===0)status="untouched";
+      else status="inprogress";
+      groups.push({modKey,moduleName,level:lvl,levelName,completed,total,status});
+    }
+  }
+  const mastered=groups.filter(g=>g.status==="mastered");
+  const inProgress=groups.filter(g=>g.status==="inprogress");
+  const untouched=groups.filter(g=>g.status==="untouched");
+
+  let nextRec=null;
+  if(inProgress.length>0){
+    const target=inProgress[0];
+    const nextEx=modules[target.modKey].exercises.find(e=>e.level===target.level&&!progress[e.id].completed);
+    nextRec={
+      icon:"▶",
+      title:"Lanjutkan level yang sedang berjalan",
+      text:`${target.moduleName} · Level ${target.level} (${target.levelName}) baru ${target.completed}/${target.total} selesai. Menuntaskan level yang sama lebih efektif daripada melompat — konsep masih hangat di ingatan.`,
+      action:{modKey:target.modKey,level:target.level,exerciseId:nextEx?.id}
+    };
+  }else if(untouched.length>0){
+    const available=untouched.find(g=>isLevelUnlocked(g.modKey,g.level));
+    if(available){
+      const firstEx=modules[available.modKey].exercises.find(e=>e.level===available.level&&!progress[e.id].completed);
+      nextRec={
+        icon:"🚀",
+        title:"Mulai level baru",
+        text:`${available.moduleName} · Level ${available.level} (${available.levelName}) belum dicoba. Ini tantangan alami berikutnya untuk memperluas pemahamanmu.`,
+        action:{modKey:available.modKey,level:available.level,exerciseId:firstEx?.id}
+      };
+    }
+  }
+  if(!nextRec&&retried.length>0){
+    const r=retried[0];
+    nextRec={
+      icon:"🔍",
+      title:"Tinjau kembali latihan yang butuh percobaan ulang",
+      text:`"${r.title}" berhasil setelah mencoba lebih dari sekali. Baca kembali petunjuk dan pembahasannya — mengulang refleksi memperkuat pemahaman jangka panjang.`,
+      action:{modKey:r.id.startsWith("seq")?"seq":"if",level:r.level,exerciseId:r.id}
+    };
+  }
+  if(!nextRec){
+    nextRec={
+      icon:"🏆",
+      title:"Semua latihan telah diselesaikan",
+      text:"Coba jelaskan pseudocode-mu sendiri dengan kata-kata, atau ajarkan ke teman. Mengajarkan konsep adalah cara terkuat untuk memperdalam pemahaman.",
+      action:null
+    };
+  }
+
+  let mindset;
+  if(done.length===0){
+    mindset={
+      emoji:"🌱",
+      title:"Setiap ahli pernah menjadi pemula",
+      text:"Kemampuan memprogram dibangun lewat latihan, bukan bakat bawaan. Mulai dari Level 1, dan kemajuanmu akan terlihat seiring waktu."
+    };
+  }else if(firstTry.length===all.length){
+    mindset={
+      emoji:"🌟",
+      title:"Kerja kerasmu berbuah",
+      text:"Semua latihan kamu selesaikan dengan benar pada percobaan pertama. Strategi belajarmu konsisten. Tantangan berikutnya: jelaskan solusimu kepada teman untuk memperdalam pemahaman."
+    };
+  }else if(retried.length>=3){
+    mindset={
+      emoji:"💪",
+      title:"Mencoba ulang adalah bagian dari belajar",
+      text:`Kamu berhasil pada ${done.length} latihan, ${retried.length} di antaranya setelah mencoba ulang. Otak tumbuh paling banyak saat kita berjuang dan memperbaiki kesalahan — bukan saat langsung benar. Sikap ini yang membedakan pembelajar sejati.`
+    };
+  }else if(done.length>=all.length/2){
+    mindset={
+      emoji:"🚀",
+      title:"Kemajuanmu nyata",
+      text:`Kamu sudah menyelesaikan ${done.length} dari ${all.length} latihan. Konsep yang tadinya terasa sulit kini mulai terasa alami. Gunakan petunjuk dan bertanya jika perlu — itu tanda pembelajar matang, bukan kelemahan.`
+    };
+  }else{
+    mindset={
+      emoji:"🧭",
+      title:"Belajar adalah perjalanan",
+      text:"Jika ada latihan yang terasa sulit, itu bukan tanda kamu tidak mampu — justru di situlah pertumbuhan terjadi. Coba strategi berbeda: baca materi ulang, buka petunjuk bertahap, atau kerjakan ulang latihan yang sudah selesai."
+    };
+  }
+
+  return {mastered,inProgress,untouched,nextRec,mindset,retried,done,all};
+}
+
+function renderRecommendations(rec){
+  let formative='<div class="rec-section"><div class="rec-heading"><span class="rec-icon">📊</span> Umpan balik formatif</div>';
+  if(rec.done.length===0){
+    formative+='<p class="muted">Belum ada latihan yang diselesaikan. Mulai dari Level 1 di salah satu modul untuk melihat kemajuanmu di sini.</p>';
+  }else{
+    formative+='<div class="formative-grid">';
+    if(rec.mastered.length>0){
+      formative+=`<div class="formative-card good"><div class="fc-title">✅ Sudah dikuasai (${rec.mastered.length})</div><ul class="fc-list">${rec.mastered.map(g=>`<li>${escapeHtml(g.moduleName)} · L${g.level} ${g.levelName}</li>`).join("")}</ul></div>`;
+    }
+    if(rec.inProgress.length>0){
+      formative+=`<div class="formative-card warn"><div class="fc-title">⚠ Sedang berjalan (${rec.inProgress.length})</div><ul class="fc-list">${rec.inProgress.map(g=>`<li>${escapeHtml(g.moduleName)} · L${g.level} ${g.levelName} — ${g.completed}/${g.total} selesai</li>`).join("")}</ul></div>`;
+    }
+    if(rec.untouched.length>0){
+      formative+=`<div class="formative-card neutral"><div class="fc-title">⬜ Belum dicoba (${rec.untouched.length})</div><ul class="fc-list">${rec.untouched.map(g=>`<li>${escapeHtml(g.moduleName)} · L${g.level} ${g.levelName}</li>`).join("")}</ul></div>`;
+    }
+    formative+='</div>';
+    if(rec.retried.length>0){
+      formative+=`<p class="muted" style="margin-top:10px"><b>${rec.retried.length} latihan</b> berhasil setelah mencoba ulang — ini bagian normal dari proses belajar.</p>`;
+    }
+  }
+  formative+='</div>';
+
+  let adaptive='<div class="rec-section"><div class="rec-heading"><span class="rec-icon">🎯</span> Rekomendasi belajar adaptif</div>';
+  adaptive+=`<div class="adaptive-card"><div class="ac-icon">${rec.nextRec.icon}</div><div class="ac-body"><div class="ac-title">${escapeHtml(rec.nextRec.title)}</div><p class="ac-text">${escapeHtml(rec.nextRec.text)}</p>${rec.nextRec.action?`<button class="primary" data-rec-jump="${encodeURIComponent(JSON.stringify(rec.nextRec.action))}">Buka latihan ini →</button>`:""}</div></div>`;
+  adaptive+='</div>';
+
+  let mindset='<div class="rec-section"><div class="rec-heading"><span class="rec-icon">🌱</span> Pola pikir berkembang</div>';
+  mindset+=`<div class="mindset-card"><div class="ms-emoji">${rec.mindset.emoji}</div><div class="ms-body"><div class="ms-title">${escapeHtml(rec.mindset.title)}</div><p class="ms-text">${escapeHtml(rec.mindset.text)}</p></div></div>`;
+  mindset+='</div>';
+
+  $("recommendations").innerHTML=formative+adaptive+mindset;
+
+  const jumpBtn=$("recommendations").querySelector("[data-rec-jump]");
+  if(jumpBtn){
+    jumpBtn.addEventListener("click",()=>{
+      const action=JSON.parse(decodeURIComponent(jumpBtn.dataset.recJump));
+      const exs=levelExercises(action.modKey,action.level);
+      const idx=exs.findIndex(e=>e.id===action.exerciseId);
+      openModule(action.modKey,action.level,idx>=0?idx:0);
+    });
+  }
+}
+
 function showResults(){
-  const all=allExercises(),done=all.filter(e=>progress[e.id].completed),first=all.filter(e=>progress[e.id].firstTry);
-  $("finalScore").textContent=`${totalScore()}/80`;$("completedCount").textContent=`${done.length}/8`;$("firstTryCount").textContent=`${first.length}/8`;
-  const concepts=[...new Set(all.map(e=>e.concept))];
-  const mastery=concepts.map(c=>{
-    const related=all.filter(e=>e.concept===c),completed=related.filter(e=>progress[e.id].completed).length;
-    return {c,completed,total:related.length};
-  });
-  $("masterySummary").innerHTML=mastery.map(m=>`<div class="result-item"><b>${escapeHtml(m.c)}</b><div class="muted">${m.completed===m.total?"Latihan terkait sudah diselesaikan":`${m.completed} dari ${m.total} latihan terkait selesai`}</div></div>`).join("");
-  const weak=mastery.filter(m=>m.completed<m.total);
-  const retryConcepts=[...new Set(all.filter(e=>progress[e.id].completed&&progress[e.id].attempts>1).map(e=>e.concept))];
-  let rec="";
-  if(done.length===0)rec="<p>Mulai dari Level 1 di salah satu modul. Baca materi singkat, lalu kerjakan latihan secara berurutan.</p>";
-  else if(weak.length)rec="<p>Prioritaskan konsep yang latihannya belum selesai:</p><ul>"+weak.map(m=>`<li>${escapeHtml(m.c)} — lanjutkan latihan yang terkait.</li>`).join("")+"</ul>";
-  else rec="<p>Semua latihan sudah selesai. Tinjau kembali pembahasan, lalu coba jelaskan dengan kata-katamu sendiri mengapa pseudocode menghasilkan output tersebut.</p>";
-  if(retryConcepts.length)rec+="<p><b>Konsep yang layak ditinjau kembali</b> berdasarkan latihan yang memerlukan percobaan ulang:</p><ul>"+retryConcepts.map(c=>`<li>${escapeHtml(c)} — baca kembali petunjuk dan pembahasan pada latihan terkait.</li>`).join("")+"</ul>";
-  $("recommendations").innerHTML=rec;
-  $("resultDetails").innerHTML=all.map(ex=>{
+  const all=allExercises(),total=all.length,totalPts=total*10;
+  const done=all.filter(e=>progress[e.id].completed),first=all.filter(e=>progress[e.id].firstTry);
+  const earned=totalScore();
+  const pct=Math.round(earned/totalPts*100);
+  $("finalScore").textContent=`${pct}%`;
+  $("finalScoreDetail").textContent=`${earned} dari ${totalPts} poin`;
+  $("completedCount").textContent=`${done.length}/${total}`;
+  $("firstTryCount").textContent=`${first.length}/${total}`;
+
+  const masteryGroups=[];
+  for(const [modKey,mod] of Object.entries(modules)){
+    const moduleName = modKey==="seq" ? "Modul 1 · Sekuensial" : "Modul 2 · Percabangan";
+    for(let lvl=1;lvl<=MAX_LEVEL;lvl++){
+      const exs = mod.exercises.filter(e=>e.level===lvl);
+      if(exs.length===0) continue;
+      const completed = exs.filter(e=>progress[e.id].completed).length;
+      masteryGroups.push({
+        moduleName, level: lvl,
+        levelName: {1:"Dasar",2:"Penerapan",3:"Analisis",4:"Evaluasi"}[lvl],
+        completed, total: exs.length
+      });
+    }
+  }
+  $("masterySummary").innerHTML = '<div class="mastery-grid">' + masteryGroups.map(g=>{
+    const isDone = g.completed===g.total;
+    return `<div class="mastery-card ${isDone?'done':''}">
+      <div class="mc-title">${escapeHtml(g.moduleName)}</div>
+      <div class="mc-meta">
+        <span>L${g.level} · ${g.levelName}</span>
+        <span><b>${g.completed}/${g.total}</b></span>
+      </div>
+    </div>`;
+  }).join("") + "</div>";
+
+  renderRecommendations(buildRecommendations());
+
+  $("resultDetails").innerHTML = '<div class="details-grid">' + all.map(ex=>{
     const s=progress[ex.id];
-    const status=s.completed?`<span class="status done">Selesai · ${s.score}/10 poin</span>`:`<span class="status review">Belum selesai</span>`;
-    return `<div class="result-item"><h3>${escapeHtml(ex.title)}</h3><div class="muted">${escapeHtml(modules[ex.id.startsWith("seq")?"seq":"if"].title)} · Level ${ex.level}</div><p>${status}</p>${s.completed?`<div class="muted">${s.firstTry?"Benar pada percobaan pertama":"Berhasil setelah mencoba kembali"} · Petunjuk dibuka ${s.hints} kali</div>`:"<div class=\"muted\">Buka modul untuk melanjutkan latihan ini.</div>"}</div>`;
-  }).join("");
+    const status=s.completed
+      ?`<span class="status done">${s.score}/10 poin</span>`
+      :`<span class="status review">Belum</span>`;
+    const levelName={1:"Dasar",2:"Penerapan",3:"Analisis",4:"Evaluasi"}[ex.level];
+    const moduleShort = ex.id.startsWith("seq") ? "Modul 1" : "Modul 2";
+    return `<div class="result-item">
+      <h3>${escapeHtml(ex.title)}</h3>
+      <div class="muted">${moduleShort} · L${ex.level} (${levelName})</div>
+      <p>${status}</p>
+      ${s.completed
+        ?`<div class="muted">${s.firstTry?"✓ Percobaan pertama":"↻ Setelah mencoba ulang"} · ${s.hints} petunjuk</div>`
+        :`<div class="muted">Belum dikerjakan.</div>`}
+    </div>`;
+  }).join("") + "</div>";
+
   showView("resultsView");
 }
-function escapeHtml(str){return String(str).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+
 function resetAll(){
   if(!confirm("Yakin ingin menghapus seluruh progres latihan pada sesi ini?"))return;
   for(const ex of allExercises())progress[ex.id]={completed:false,score:0,firstTry:false,attempts:0,hints:0,correct:false};
@@ -730,8 +1779,9 @@ $("startButton").addEventListener("click",()=>openModule("seq"));
 $("resultsButton").addEventListener("click",showResults);
 $("backHome").addEventListener("click",()=>{updateHome();showView("homeView")});
 $("resultsHome").addEventListener("click",()=>{updateHome();showView("homeView")});
-$("level1Button").addEventListener("click",()=>changeLevel(1));
-$("level2Button").addEventListener("click",()=>changeLevel(2));
+document.querySelectorAll("[data-level]").forEach(btn=>{
+  btn.addEventListener("click",()=>changeLevel(Number(btn.dataset.level)));
+});
 $("prevExercise").addEventListener("click",previousExercise);
 $("nextExercise").addEventListener("click",nextExercise);
 $("continueLearning").addEventListener("click",()=>{
